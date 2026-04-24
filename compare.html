@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP - Сравнение товаров</title>
+<style>
+/* Минималистичная навигация */
+header {
+  background-color: #000;
+  padding: 20px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 800;
+  color: #fff;
+  font-size: 2.2em;
+  letter-spacing: -0.5px;
+}
+
+nav {
+  margin-top: 15px;
+  display: flex;
+  gap: 25px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1em;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav a:hover {
+  color: #fff;
+  opacity: 0.8;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #fff; /* Белая линия вместо желтой */
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+header {
+  background-color: #000;
+  padding: 20px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 800;
+  color: #fff;
+  font-size: 2.2em;
+  letter-spacing: -0.5px;
+}
+
+nav {
+  margin-top: 15px;
+  display: flex;
+  gap: 25px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1em;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav a:hover {
+  color: #fff;
+  opacity: 0.8;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #fff; /* Белая линия вместо желтой */
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+  body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header {
+    background-color: #000;
+    padding: 20px;
+    position: relative;
+  }
+
+  header h1 {
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    font-size: 2em;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav a {
+    color: #fff;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  .cart-count {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+
+  .compare-container {
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    vertical-align: top;
+    min-width: 200px;
+  }
+
+  .compare-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+
+  .product-cell {
+    width: 250px;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 1;
+    border-right: 2px solid #000;
+  }
+
+  .product-cell img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+
+  .feature-cell {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+
+  .action-btn {
+    padding: 8px 15px;
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+
+  .action-btn:hover {
+    background-color: #333;
+  }
+
+  .remove-btn {
+    background-color: #ff4757;
+  }
+
+  .remove-btn:hover {
+    background-color: #ff6b81;
+  }
+
+  .buy-btn {
+    background-color: #2ecc71;
+  }
+
+  .buy-btn:hover {
+    background-color: #27ae60;
+  }
+
+  .no-products {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    background: #f9f9f9;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+
+  .back-btn {
+    padding: 12px 24px;
+    background-color: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+
+  .back-btn:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+  }
+
+  .compare-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  @media(max-width: 768px) {
+    .compare-table {
+      font-size: 0.9em;
+    }
+    
+    .compare-table th,
+    .compare-table td {
+      padding: 10px;
+      min-width: 150px;
+    }
+    
+    .product-cell {
+      min-width: 150px;
+    }
+    
+    .compare-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DROP SHOP</h1>
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="about.html">О нас</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="cart.html">Корзина</a>
+  </nav>
+</header>
+
+<div class="compare-container">
+  <div class="compare-header">
+    <h2>Сравнение товаров</h2>
+    <button class="back-btn" onclick="window.location.href='catalog.html'">← Вернуться в каталог</button>
+  </div>
+  
+  <div id="compareContent">
+    <!-- Содержимое будет загружено через JavaScript -->
+  </div>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const productIds = urlParams.get('ids');
+  
+  const detailedProducts = {
+    101: {
+      id: 101,
+      name: "Nike Air Jordan 1",
+      price: 15490,
+      category: "мужская",
+      description: "Классические мужские кроссовки из натуральной кожи. Удобные и стильные для повседневной носки.",
+      images: ["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800"],
+      sizes: ["40", "41", "42", "43", "44", "45"],
+      inStock: true,
+      material: "Натуральная кожа",
+      color: "Черный",
+      rating: 4.5,
+      features: {
+        "Сезон": "Всесезонные",
+        "Подкладка": "Натуральная кожа",
+        "Подошва": "Резиновая",
+        "Страна": "Вьетнам"
+      }
+    },
+    102: {
+      id: 102,
+      name: "New Balance 2002",
+      price: 12490,
+      category: "мужская",
+      description: "Элегантное вечернее платье из шелкового атласа.",
+      images: ["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800"],
+      sizes: ["40", "41", "42", "43", "44"],
+      inStock: true,
+      material: "Замша",
+      color: "Серый",
+      rating: 4.8,
+      features: {
+        "Сезон": "Лето",
+        "Уход": "Только химчистка",
+        "Длина": "Мид",
+        "Страна": "Вьетнам"
+      }
+    },
+    103: {
+      id: 103,
+      name: "Burberry рубашка",
+      price: 33490,
+      category: "мужские",
+      description: "Бежевая рубашка в знаковую клетку Vintage Check органично дополнит повседневный образ и со строгими брюками, и с потертыми джинсами. Модель выполнили из мягкого хлопкового поплина, не уступающего по гладкости шелку. Изделие хорошо пропускает воздух, поддерживая ощущение свежести в течение дня, и приятно ощущается на коже.",
+      images: ["https://cdn-img.thepoizon.ru/pro-img/cut-img/20250325/c5cb34b6334845039416a24e165f8c8a.jpg?x-oss-process=image/format,webp/resize,w_800"],
+      sizes: ["S", "M", "L", "XL", "XXL"],
+      inStock: true,
+      material: "100% хлопок",
+      color: "Бежевый",
+      rating: 4.2,
+      features: {
+        "Сезон": "Лето",
+        "Уход": "Стирка",
+        "Застежка": "Молния",
+        "Страна": "Великобритания"
+      }
+    },
+    104: {
+      id: 104,
+      name: "Мужской пиджак",
+      price: 35000,
+      category: "мужская",
+      description: "Классический мужской пиджак.",
+      images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80"],
+      sizes: ["48", "50", "52", "54", "56"],
+      inStock: true,
+      material: "Шерсть",
+      color: "Синий",
+      rating: 4.7,
+      features: {
+        "Сезон": "Осень-Весна",
+        "Подкладка": "Вискоза",
+        "Карманы": "2 боковых, 1 нагрудный",
+        "Страна": "Россия"
+      }
+    },
+    105: {
+      id: 105,
+      name: "Женские украшения",
+      price: 22000,
+      category: "женская",
+      description: "Комплект украшений из серебра.",
+      images: ["https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80"],
+      sizes: ["Один размер"],
+      inStock: true,
+      material: "Серебро, фианиты",
+      color: "Серебряный",
+      rating: 4.9,
+      features: {
+        "Вес": "15 г",
+        "Покрытие": "Родиевое",
+        "Вставки": "Фианиты",
+        "Страна": "Турция"
+      }
+    },
+    106: {
+      id: 106,
+      name: "Шейный платок",
+      price: 12000,
+      category: "аксессуары",
+      description: "Шелковый шейный платок.",
+      images: ["https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=600&q=80"],
+      sizes: ["Один размер"],
+      inStock: true,
+      material: "Шелк",
+      color: "Разноцветный",
+      rating: 4.0,
+      features: {
+        "Размер": "90x90 см",
+        "Уход": "Ручная стирка",
+        "Рисунок": "Принт",
+        "Страна": "Индия"
+      }
+    }
+  };
+
+  function loadComparePage() {
+    const container = document.getElementById('compareContent');
+    updateCartCount();
+    
+    if (!productIds) {
+      container.innerHTML = `
+        <div class="no-products">
+          <h3>Нет товаров для сравнения</h3>
+          <p>Добавьте товары для сравнения в каталоге</p>
+          <button class="back-btn" onclick="window.location.href='catalog.html'" style="margin-top: 20px;">Перейти в каталог</button>
+        </div>
+      `;
+      return;
+    }
+    
+    const ids = productIds.split('_').map(id => parseInt(id));
+    const products = ids.map(id => detailedProducts[id]).filter(p => p);
+    
+    if (products.length < 2) {
+      container.innerHTML = `
+        <div class="no-products">
+          <h3>Недостаточно товаров для сравнения</h3>
+          <p>Добавьте минимум 2 товара</p>
+          <button class="back-btn" onclick="window.location.href='catalog.html'" style="margin-top: 20px;">Перейти в каталог</button>
+        </div>
+      `;
+      return;
+    }
+    
+    const allFeatures = new Set();
+    products.forEach(product => {
+      if (product.features) {
+        Object.keys(product.features).forEach(feature => {
+          allFeatures.add(feature);
+        });
+      }
+    });
+    
+    const features = Array.from(allFeatures);
+    
+    let tableHTML = `
+      <div style="overflow-x: auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="product-cell feature-cell">Характеристики</th>
+    `;
+    
+    products.forEach(product => {
+      tableHTML += `
+        <th class="product-cell">
+          <img src="${product.images[0]}" alt="${product.name}">
+          <h3 style="margin: 10px 0;">${product.name}</h3>
+          <p style="color: #b12704; font-weight: bold; font-size: 1.2em; margin: 10px 0;">
+            ${product.price.toLocaleString()} руб.
+          </p>
+          <div style="margin: 10px 0;">
+            <span style="color: #f39c12;">
+              ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}
+            </span>
+            <span>${product.rating}</span>
+          </div>
+          <button class="action-btn" onclick="addToCart(${product.id})">В корзину</button>
+          <button class="action-btn remove-btn" onclick="removeFromCompare(${product.id})">Удалить</button>
+          <button class="action-btn buy-btn" onclick="buyNow(${product.id})">Купить сейчас</button>
+        </th>
+      `;
+    });
+    
+    tableHTML += `</tr></thead><tbody>`;
+    
+    const mainFeatures = [
+      {name: "Цена", key: "price", format: v => `${v.toLocaleString()} руб.`},
+      {name: "Категория", key: "category"},
+      {name: "Материал", key: "material"},
+      {name: "Цвет", key: "color"},
+      {name: "Рейтинг", key: "rating"},
+      {name: "Наличие", key: "inStock", format: v => v ? "✓ В наличии" : "✗ Нет в наличии"},
+      {name: "Размеры", key: "sizes", format: v => v.join(", ")}
+    ];
+    
+    mainFeatures.forEach(feature => {
+      tableHTML += `<tr><td class="feature-cell">${feature.name}</td>`;
+      products.forEach(product => {
+        let value = product[feature.key];
+        if (feature.format) value = feature.format(value);
+        tableHTML += `<td>${value || "-"}</td>`;
+      });
+      tableHTML += `</tr>`;
+    });
+    
+    features.forEach(feature => {
+      tableHTML += `<tr><td class="feature-cell">${feature}</td>`;
+      products.forEach(product => {
+        const value = product.features ? product.features[feature] : "-";
+        tableHTML += `<td>${value || "-"}</td>`;
+      });
+      tableHTML += `</tr>`;
+    });
+    
+    tableHTML += `<tr><td class="feature-cell">Описание</td>`;
+    products.forEach(product => {
+      tableHTML += `<td>${product.description}</td>`;
+    });
+    tableHTML += `</tr>`;
+    
+    tableHTML += `</tbody></table></div>`;
+    container.innerHTML = tableHTML;
+  }
+  
+  function addToCart(id) {
+    const product = detailedProducts[id];
+    if (!product) return;
+    
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartKey = `${id}_compare_${Date.now()}`;
+    
+    cart[cartKey] = {
+      ...product,
+      size: "Стандартный",
+      quantity: 1
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    alert('Товар добавлен в корзину');
+  }
+  
+  function removeFromCompare(id) {
+    let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+    compareList = compareList.filter(item => item !== id);
+    localStorage.setItem('compare', JSON.stringify(compareList));
+    
+    const remainingIds = compareList.join('_');
+    if (remainingIds) {
+      window.location.href = `compare.html?ids=${remainingIds}`;
+    } else {
+      window.location.href = 'compare.html';
+    }
+  }
+  
+  function buyNow(id) {
+    addToCart(id);
+    window.location.href = 'cart.html';
+  }
+  
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById('cartCount').textContent = totalItems;
+  }
+  
+  document.addEventListener('DOMContentLoaded', loadComparePage);
+</script>
+</div> <!-- Закрывающий тег .compare-container -->
+
+<footer style="text-align: center; padding: 20px; color: #666; font-size: 12px; margin-top: 40px; border-top: 1px solid #eee;">
+  <a href="admin.html" style="color: inherit; text-decoration: none;">🔒 Администратору</a>
+</footer>
+
+<script>
+// ... существующий JavaScript ...
+</body>
+</html>

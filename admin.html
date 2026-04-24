@@ -1,0 +1,2857 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP | Админ-панель</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --admin-primary: #0a0a0a;
+    --admin-secondary: #1a1a1a;
+    --admin-accent: #FFD700;
+    --admin-success: #27ae60;
+    --admin-danger: #e74c3c;
+    --admin-warning: #f39c12;
+    --admin-info: #3498db;
+    --admin-light: #f8f9fa;
+    --admin-dark: #121212;
+    --admin-text: #e0e0e0;
+    --admin-text-light: #a0a0a0;
+    --admin-profit: #2ecc71;
+    --admin-expense: #e74c3c;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--admin-dark);
+    color: var(--admin-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--admin-dark) 0%, #2c3e50 100%);
+    padding: 2rem;
+  }
+
+  .login-box {
+    background: var(--admin-secondary);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .login-icon {
+    font-size: 3rem;
+    color: var(--admin-accent);
+    margin-bottom: 1rem;
+  }
+
+  .login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .login-subtitle {
+    color: var(--admin-text-light);
+    font-size: 0.9rem;
+  }
+
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--admin-text-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: var(--admin-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--admin-accent);
+    color: var(--admin-dark);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .login-btn:hover {
+    background: #ffed4e;
+    transform: translateY(-2px);
+  }
+
+  .error-message {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--admin-danger);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    display: none;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+  }
+
+  .admin-container {
+    display: none;
+    min-height: 100vh;
+  }
+
+  .admin-header {
+    background: var(--admin-primary);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .admin-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .admin-logo-icon {
+    font-size: 1.8rem;
+    color: var(--admin-accent);
+  }
+
+  .admin-logo-text {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .admin-time {
+    color: var(--admin-text-light);
+    font-size: 0.9rem;
+  }
+
+  .logout-btn {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--admin-danger);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .logout-btn:hover {
+    background: var(--admin-danger);
+    color: white;
+  }
+
+  .admin-nav {
+    background: var(--admin-secondary);
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-tab {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--admin-text-light);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--admin-text);
+  }
+
+  .nav-tab.active {
+    background: var(--admin-accent);
+    color: var(--admin-dark);
+    border-color: var(--admin-accent);
+  }
+
+  .admin-content {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Финансовая статистика */
+  .finance-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .finance-card {
+    background: var(--admin-secondary);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease;
+  }
+
+  .finance-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 215, 0, 0.2);
+  }
+
+  .finance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .finance-icon {
+    font-size: 1.8rem;
+  }
+
+  .finance-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .finance-label {
+    color: var(--admin-text-light);
+    font-size: 0.9rem;
+  }
+
+  .profit-value {
+    color: var(--admin-profit);
+  }
+
+  .revenue-value {
+    color: var(--admin-accent);
+  }
+
+  .expenses-value {
+    color: var(--admin-expense);
+  }
+
+  .margin-value {
+    color: var(--admin-info);
+  }
+
+  /* Статистика заказов */
+  .order-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: var(--admin-secondary);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .stat-badge-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+
+  .stat-badge-content {
+    flex: 1;
+  }
+
+  .stat-badge-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .stat-badge-label {
+    font-size: 0.8rem;
+    color: var(--admin-text-light);
+  }
+
+  /* Формы */
+  .form-container {
+    background: var(--admin-secondary);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .form-title i {
+    color: var(--admin-accent);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--admin-text-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--admin-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+  }
+
+  textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--admin-text);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .cost-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .margin-indicator {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .margin-good {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--admin-profit);
+  }
+
+  .margin-warning {
+    background: rgba(241, 196, 15, 0.2);
+    color: var(--admin-warning);
+  }
+
+  .margin-bad {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--admin-danger);
+  }
+
+  .image-upload-area {
+    border: 2px dashed rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+  }
+
+  .image-upload-area:hover {
+    border-color: var(--admin-accent);
+    background: rgba(255, 215, 0, 0.05);
+  }
+
+  .image-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .preview-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .preview-image:hover {
+    border-color: var(--admin-accent);
+    transform: scale(1.05);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--admin-accent);
+    color: var(--admin-dark);
+    flex: 1;
+  }
+
+  .btn-primary:hover {
+    background: #ffed4e;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--admin-text);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Таблицы */
+  .table-container {
+    background: var(--admin-secondary);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .table-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .table-filters {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .data-table th {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--admin-text-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .data-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Статусы заказов */
+  .status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .status-new {
+    background: rgba(52, 152, 219, 0.1);
+    color: var(--admin-info);
+  }
+
+  .status-processing {
+    background: rgba(241, 196, 15, 0.1);
+    color: var(--admin-warning);
+  }
+
+  .status-delivery {
+    background: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+  }
+
+  .status-completed {
+    background: rgba(39, 174, 96, 0.1);
+    color: var(--admin-success);
+  }
+
+  .status-cancelled {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--admin-danger);
+  }
+
+  .profit-badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .profit-positive {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--admin-profit);
+  }
+
+  .profit-negative {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--admin-danger);
+  }
+
+  .table-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .action-btn.view {
+    background: rgba(52, 152, 219, 0.1);
+    color: var(--admin-info);
+  }
+
+  .action-btn.edit {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--admin-accent);
+  }
+
+  .action-btn.delete {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--admin-danger);
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Графики */
+  .charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-box {
+    background: var(--admin-secondary);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .chart-title {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .chart-canvas {
+    width: 100%;
+    height: 300px;
+  }
+
+  /* Уведомления */
+  .notification-admin {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: var(--admin-success);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: slideInRight 0.3s ease;
+  }
+
+  .notification-admin.error {
+    background: var(--admin-danger);
+  }
+
+  .notification-admin.warning {
+    background: var(--admin-warning);
+  }
+
+  /* Загрузка */
+  .loading-admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+
+  .spinner-admin {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid var(--admin-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .charts-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-content {
+      padding: 1rem;
+    }
+    
+    .admin-nav {
+      padding: 1rem;
+    }
+    
+    .table-filters {
+      flex-direction: column;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="loginContainer" class="login-container">
+  <div class="login-box">
+    <div class="login-header">
+      <div class="login-icon">👑</div>
+      <h1 class="login-title">DROP SHOP Admin</h1>
+      <p class="login-subtitle">Панель управления магазином</p>
+    </div>
+    
+    <div class="input-group">
+      <label class="input-label">Логин</label>
+      <input type="text" id="adminLogin" class="input-field" placeholder="Введите логин" value="admin">
+    </div>
+    
+    <div class="input-group">
+      <label class="input-label">Пароль</label>
+      <input type="password" id="adminPassword" class="input-field" placeholder="Введите пароль">
+    </div>
+    
+    <button class="login-btn" onclick="loginAdmin()">
+      <i class="fas fa-sign-in-alt"></i> Войти в панель управления
+    </button>
+    
+    <div id="loginError" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> Неверный логин или пароль
+    </div>
+  </div>
+</div>
+
+<div id="adminPanel" class="admin-container">
+  <div class="admin-header">
+    <div class="admin-logo">
+      <div class="admin-logo-icon">👑</div>
+      <div class="admin-logo-text">DROP SHOP | Админ-панель</div>
+    </div>
+    
+    <div class="admin-actions">
+      <div class="admin-time" id="currentTime">00:00:00</div>
+      <button class="logout-btn" onclick="logoutAdmin()">
+        <i class="fas fa-sign-out-alt"></i> Выйти
+      </button>
+    </div>
+  </div>
+  
+  <div class="admin-nav">
+    <button class="nav-tab active" onclick="switchTab('dashboard')">
+      <i class="fas fa-tachometer-alt"></i> Дашборд
+    </button>
+    <button class="nav-tab" onclick="switchTab('products')">
+      <i class="fas fa-box"></i> Товары
+    </button>
+    <button class="nav-tab" onclick="switchTab('addProduct')">
+      <i class="fas fa-plus-circle"></i> Добавить товар
+    </button>
+    <button class="nav-tab" onclick="switchTab('orders')">
+      <i class="fas fa-shopping-cart"></i> Заказы
+    </button>
+    <button class="nav-tab" onclick="switchTab('analytics')">
+      <i class="fas fa-chart-line"></i> Аналитика
+    </button>
+    <button class="nav-tab" onclick="switchTab('finance')">
+      <i class="fas fa-money-bill-wave"></i> Финансы
+    </button>
+    <button class="nav-tab" onclick="switchTab('settings')">
+      <i class="fas fa-cog"></i> Настройки
+    </button>
+  </div>
+  
+  <div class="admin-content">
+    <!-- Дашборд -->
+    <div id="dashboardTab" class="tab-content active">
+      <div class="finance-stats">
+        <div class="finance-card">
+          <div class="finance-header">
+            <div class="finance-icon">💰</div>
+            <div class="stat-change positive">+12%</div>
+          </div>
+          <div class="finance-value revenue-value" id="totalRevenue">0 ₽</div>
+          <div class="finance-label">Общая выручка</div>
+        </div>
+        
+        <div class="finance-card">
+          <div class="finance-header">
+            <div class="finance-icon">💵</div>
+            <div class="stat-change positive">+15%</div>
+          </div>
+          <div class="finance-value profit-value" id="totalProfit">0 ₽</div>
+          <div class="finance-label">Чистая прибыль</div>
+        </div>
+        
+        <div class="finance-card">
+          <div class="finance-header">
+            <div class="finance-icon">📊</div>
+            <div class="stat-change positive">+8%</div>
+          </div>
+          <div class="finance-value margin-value" id="avgMargin">0%</div>
+          <div class="finance-label">Средняя маржа</div>
+        </div>
+        
+        <div class="finance-card">
+          <div class="finance-header">
+            <div class="finance-icon">📦</div>
+            <div class="stat-change positive">+5%</div>
+          </div>
+          <div class="finance-value" id="totalOrders">0</div>
+          <div class="finance-label">Всего заказов</div>
+        </div>
+      </div>
+      
+      <div class="order-stats">
+        <div class="stat-badge">
+          <div class="stat-badge-icon" style="background: rgba(52, 152, 219, 0.1); color: var(--admin-info);">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-badge-content">
+            <div class="stat-badge-value" id="newOrders">0</div>
+            <div class="stat-badge-label">Новые заказы</div>
+          </div>
+        </div>
+        
+        <div class="stat-badge">
+          <div class="stat-badge-icon" style="background: rgba(241, 196, 15, 0.1); color: var(--admin-warning);">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <div class="stat-badge-content">
+            <div class="stat-badge-value" id="processingOrders">0</div>
+            <div class="stat-badge-label">В обработке</div>
+          </div>
+        </div>
+        
+        <div class="stat-badge">
+          <div class="stat-badge-icon" style="background: rgba(155, 89, 182, 0.1); color: #9b59b6;">
+            <i class="fas fa-truck"></i>
+          </div>
+          <div class="stat-badge-content">
+            <div class="stat-badge-value" id="deliveryOrders">0</div>
+            <div class="stat-badge-label">Ждет доставки</div>
+          </div>
+        </div>
+        
+        <div class="stat-badge">
+          <div class="stat-badge-icon" style="background: rgba(39, 174, 96, 0.1); color: var(--admin-success);">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-badge-content">
+            <div class="stat-badge-value" id="completedOrders">0</div>
+            <div class="stat-badge-label">Завершено</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="charts-container">
+        <div class="chart-box">
+          <div class="chart-title">📈 Динамика прибыли</div>
+          <canvas id="profitChart" class="chart-canvas"></canvas>
+        </div>
+        
+        <div class="chart-box">
+          <div class="chart-title">📊 Распределение заказов по статусам</div>
+          <canvas id="ordersChart" class="chart-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Товары -->
+    <div id="productsTab" class="tab-content">
+      <div class="table-container">
+        <div class="table-header">
+          <div class="table-title">🏷️ Все товары</div>
+          <div class="table-filters">
+            <select id="productFilter" class="form-control" style="width: auto;" onchange="filterProducts()">
+              <option value="all">Все товары</option>
+              <option value="original">Оригиналы</option>
+              <option value="replica">Реплики</option>
+              <option value="highMargin">Высокая маржа</option>
+              <option value="lowMargin">Низкая маржа</option>
+            </select>
+            <input type="text" class="form-control" placeholder="Поиск товаров..." onkeyup="searchProducts(this.value)" style="min-width: 200px;">
+          </div>
+        </div>
+        
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Название</th>
+              <th>Тип</th>
+              <th>Себестоимость</th>
+              <th>Цена</th>
+              <th>Маржа</th>
+              <th>Прибыль</th>
+              <th>Статус</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody id="productsTable">
+            <!-- Товары загружаются через JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Добавить товар -->
+    <div id="addProductTab" class="tab-content">
+      <div class="form-container">
+        <div class="form-title">
+          <i class="fas fa-plus-circle"></i> Добавление нового товара
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Название товара *</label>
+            <input type="text" id="productName" class="form-control" placeholder="Например: Nike Air Jordan 1">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Категория *</label>
+            <select id="productCategory" class="form-control">
+              <option value="">Выберите категорию</option>
+              <option value="обувь">Обувь</option>
+              <option value="мужская">Мужская одежда</option>
+              <option value="женская">Женская одежда</option>
+              <option value="аксессуары">Аксессуары</option>
+              <option value="верхняя">Верхняя одежда</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Тип товара *</label>
+            <select id="productType" class="form-control">
+              <option value="">Выберите тип</option>
+              <option value="original">Оригинал</option>
+              <option value="replica">Реплика</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Статус *</label>
+            <select id="productAvailability" class="form-control">
+              <option value="in_stock">В наличии</option>
+              <option value="preorder">Под заказ</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Себестоимость (₽) *</label>
+            <input type="number" id="productCost" class="form-control" placeholder="5000" min="0" oninput="calculateMargin()">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Цена продажи (₽) *</label>
+            <input type="number" id="productPrice" class="form-control" placeholder="14990" min="0" oninput="calculateMargin()">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Доходность</label>
+            <div id="marginIndicator" class="cost-indicator">
+              <span id="profitAmount">0 ₽</span>
+              <span id="marginPercentage" class="margin-indicator margin-good">0%</span>
+            </div>
+            <small style="color: var(--admin-text-light); display: block; margin-top: 0.3rem;">
+              Прибыль и маржа рассчитаются автоматически
+            </small>
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Количество на складе</label>
+            <input type="number" id="productStock" class="form-control" value="10" min="0">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Размеры (через запятую)</label>
+            <input type="text" id="productSizes" class="form-control" placeholder="40, 41, 42, 43, 44, 45">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Цвет</label>
+            <input type="text" id="productColor" class="form-control" placeholder="Черный">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Описание товара *</label>
+          <textarea id="productDescription" class="form-control" placeholder="Подробное описание товара..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Изображения (URL через запятую) *</label>
+          <div class="image-upload-area" onclick="document.getElementById('productImages').focus()">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--admin-accent);"></i>
+            <div style="font-size: 1.1rem; margin-bottom: 0.5rem;">Нажмите чтобы добавить URL изображений</div>
+            <div style="color: var(--admin-text-light); font-size: 0.9rem;">Рекомендуем использовать Imgur, Unsplash или аналогичные сервисы</div>
+          </div>
+          <input type="text" id="productImages" class="form-control" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg">
+          <div class="image-preview" id="imagePreview"></div>
+        </div>
+        
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="addProduct()">
+            <i class="fas fa-save"></i> Сохранить товар
+          </button>
+          <button class="btn btn-secondary" onclick="resetProductForm()">
+            <i class="fas fa-redo"></i> Очистить форму
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Заказы -->
+    <div id="ordersTab" class="tab-content">
+      <div class="table-container">
+        <div class="table-header">
+          <div class="table-title">📦 История заказов</div>
+          <div class="table-filters">
+            <input type="date" id="orderDateFrom" class="form-control">
+            <input type="date" id="orderDateTo" class="form-control">
+            <select id="orderStatusFilter" class="form-control" onchange="filterOrders()">
+              <option value="all">Все статусы</option>
+              <option value="new">Новые</option>
+              <option value="processing">В обработке</option>
+              <option value="delivery">Ждет доставки</option>
+              <option value="completed">Завершенные</option>
+              <option value="cancelled">Отмененные</option>
+            </select>
+          </div>
+        </div>
+        
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Дата</th>
+              <th>Клиент</th>
+              <th>Товары</th>
+              <th>Сумма</th>
+              <th>Себестоимость</th>
+              <th>Прибыль</th>
+              <th>Статус</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTable">
+            <!-- Заказы загружаются через JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Аналитика -->
+    <div id="analyticsTab" class="tab-content">
+      <div class="form-container">
+        <div class="form-title">
+          <i class="fas fa-chart-line"></i> Аналитика продаж
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Период</label>
+            <select id="analyticsPeriod" class="form-control" onchange="updateAnalytics()">
+              <option value="7">7 дней</option>
+              <option value="30" selected>30 дней</option>
+              <option value="90">90 дней</option>
+              <option value="365">Год</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Тип товаров</label>
+            <select id="analyticsType" class="form-control" onchange="updateAnalytics()">
+              <option value="all">Все товары</option>
+              <option value="original">Только оригиналы</option>
+              <option value="replica">Только реплики</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="charts-container">
+          <div class="chart-box">
+            <div class="chart-title">💰 Динамика выручки и прибыли</div>
+            <canvas id="revenueChart" class="chart-canvas"></canvas>
+          </div>
+          
+          <div class="chart-box">
+            <div class="chart-title">📦 Продажи по категориям</div>
+            <canvas id="categoryChart" class="chart-canvas"></canvas>
+          </div>
+        </div>
+        
+        <div class="table-container" style="margin-top: 2rem;">
+          <div class="table-header">
+            <div class="table-title">🏆 Топ-5 самых прибыльных товаров</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Товар</th>
+                <th>Продано</th>
+                <th>Выручка</th>
+                <th>Прибыль</th>
+                <th>Маржа</th>
+              </tr>
+            </thead>
+            <tbody id="topProductsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Финансы -->
+    <div id="financeTab" class="tab-content">
+      <div class="form-container">
+        <div class="form-title">
+          <i class="fas fa-money-bill-wave"></i> Финансовый отчет
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Отчетный период</label>
+            <select id="financePeriod" class="form-control" onchange="updateFinanceReport()">
+              <option value="today">Сегодня</option>
+              <option value="yesterday">Вчера</option>
+              <option value="week">Эта неделя</option>
+              <option value="month" selected>Этот месяц</option>
+              <option value="quarter">Этот квартал</option>
+              <option value="year">Этот год</option>
+              <option value="all">За все время</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Тип отчета</label>
+            <select id="financeType" class="form-control" onchange="updateFinanceReport()">
+              <option value="summary">Сводный отчет</option>
+              <option value="detailed">Детализированный</option>
+              <option value="profit">По прибыльности</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="finance-stats">
+          <div class="finance-card">
+            <div class="finance-header">
+              <div class="finance-icon">💰</div>
+            </div>
+            <div class="finance-value revenue-value" id="periodRevenue">0 ₽</div>
+            <div class="finance-label">Выручка за период</div>
+          </div>
+          
+          <div class="finance-card">
+            <div class="finance-header">
+              <div class="finance-icon">💵</div>
+            </div>
+            <div class="finance-value profit-value" id="periodProfit">0 ₽</div>
+            <div class="finance-label">Чистая прибыль</div>
+          </div>
+          
+          <div class="finance-card">
+            <div class="finance-header">
+              <div class="finance-icon">📊</div>
+            </div>
+            <div class="finance-value margin-value" id="periodMargin">0%</div>
+            <div class="finance-label">Маржинальность</div>
+          </div>
+          
+          <div class="finance-card">
+            <div class="finance-header">
+              <div class="finance-icon">📦</div>
+            </div>
+            <div class="finance-value" id="periodOrders">0</div>
+            <div class="finance-label">Кол-во заказов</div>
+          </div>
+        </div>
+        
+        <div class="table-container" style="margin-top: 2rem;">
+          <div class="table-header">
+            <div class="table-title">📋 Детализированный финансовый отчет</div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Заказов</th>
+                <th>Выручка</th>
+                <th>Себестоимость</th>
+                <th>Прибыль</th>
+                <th>Маржа</th>
+              </tr>
+            </thead>
+            <tbody id="financeDetailsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Настройки -->
+    <div id="settingsTab" class="tab-content">
+      <div class="form-container">
+        <div class="form-title">
+          <i class="fas fa-cog"></i> Настройки магазина
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Название магазина</label>
+            <input type="text" id="shopName" class="form-control" value="DROP SHOP Якутск">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Телефон для связи</label>
+            <input type="text" id="shopPhone" class="form-control" value="+7 (999) 123-45-67">
+          </div>
+        </div>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Email для уведомлений</label>
+            <input type="email" id="shopEmail" class="form-control" value="info@dropshop-ykt.ru">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Адрес магазина</label>
+            <input type="text" id="shopAddress" class="form-control" value="Якутск, ул. Ленина, 15">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Токен Telegram бота</label>
+          <input type="text" id="telegramToken" class="form-control" placeholder="Введите токен бота">
+          <small style="color: var(--admin-text-light); display: block; margin-top: 0.5rem;">
+            Используется для отправки уведомлений о новых заказах
+          </small>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Chat ID Telegram</label>
+          <input type="text" id="telegramChatId" class="form-control" placeholder="Введите Chat ID">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Настройки доставки</label>
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" id="deliveryYakutsk" checked> Доставка по Якутску
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" id="pickupAvailable" checked> Самовывоз
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" id="freeDelivery" checked> Бесплатная доставка от 5000₽
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="saveSettings()">
+            <i class="fas fa-save"></i> Сохранить настройки
+          </button>
+          <button class="btn btn-secondary" onclick="resetSettings()">
+            <i class="fas fa-redo"></i> Сбросить
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notificationContainer"></div>
+
+<div class="loading-admin" id="loadingAdmin" style="display: none;">
+  <div class="spinner-admin"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ADMIN_CONFIG = {
+    login: "admin",
+    password: "123456"
+  };
+
+  let currentTab = 'dashboard';
+  let products = [];
+  let orders = [];
+  let profitChart = null;
+  let ordersChart = null;
+  let revenueChart = null;
+  let categoryChart = null;
+
+  // Статусы заказов
+  const ORDER_STATUSES = {
+    'new': { name: 'Новый', class: 'status-new', icon: 'fas fa-clock' },
+    'processing': { name: 'В обработке', class: 'status-processing', icon: 'fas fa-cogs' },
+    'delivery': { name: 'Ждет доставки', class: 'status-delivery', icon: 'fas fa-truck' },
+    'completed': { name: 'Завершен', class: 'status-completed', icon: 'fas fa-check-circle' },
+    'cancelled': { name: 'Отменен', class: 'status-cancelled', icon: 'fas fa-times-circle' }
+  };
+
+  // Функции авторизации
+  function loginAdmin() {
+    const login = document.getElementById('adminLogin').value;
+    const password = document.getElementById('adminPassword').value;
+    const errorDiv = document.getElementById('loginError');
+
+    if (login === ADMIN_CONFIG.login && password === ADMIN_CONFIG.password) {
+      localStorage.setItem('adminLoggedIn', 'true');
+      localStorage.setItem('adminSession', btoa(JSON.stringify({
+        login: login,
+        timestamp: Date.now()
+      })));
+      
+      showAdminPanel();
+      showNotification('✅ Успешный вход в панель управления', 'success');
+    } else {
+      errorDiv.style.display = 'block';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  function logoutAdmin() {
+    localStorage.removeItem('adminLoggedIn');
+    localStorage.removeItem('adminSession');
+    location.reload();
+  }
+
+  function showAdminPanel() {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    
+    loadDashboardData();
+  }
+
+  function updateCurrentTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('ru-RU');
+    const dateString = now.toLocaleDateString('ru-RU', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    document.getElementById('currentTime').textContent = `${dateString} ${timeString}`;
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.nav-tab').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    document.getElementById(tabName + 'Tab').classList.add('active');
+    event.target.classList.add('active');
+    
+    switch(tabName) {
+      case 'dashboard':
+        loadDashboardData();
+        break;
+      case 'products':
+        loadProductsTable();
+        break;
+      case 'orders':
+        loadOrders();
+        break;
+      case 'analytics':
+        updateAnalytics();
+        break;
+      case 'finance':
+        updateFinanceReport();
+        break;
+      case 'settings':
+        loadSettings();
+        break;
+    }
+    
+    currentTab = tabName;
+  }
+
+  function showNotification(message, type = 'success') {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = `notification-admin ${type}`;
+    notification.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+      <span>${message}</span>
+    `;
+    
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideInRight 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  function showLoading(show) {
+    document.getElementById('loadingAdmin').style.display = show ? 'flex' : 'none';
+  }
+
+  // Расчет маржи
+  function calculateMargin() {
+    const cost = parseFloat(document.getElementById('productCost').value) || 0;
+    const price = parseFloat(document.getElementById('productPrice').value) || 0;
+    
+    if (cost <= 0 || price <= 0) {
+      document.getElementById('profitAmount').textContent = '0 ₽';
+      document.getElementById('marginPercentage').textContent = '0%';
+      document.getElementById('marginPercentage').className = 'margin-indicator margin-good';
+      return;
+    }
+    
+    const profit = price - cost;
+    const margin = ((profit / price) * 100).toFixed(1);
+    
+    document.getElementById('profitAmount').textContent = `${profit.toLocaleString()} ₽`;
+    document.getElementById('marginPercentage').textContent = `${margin}%`;
+    
+    // Определяем цвет маржи
+    let marginClass = 'margin-good';
+    if (margin < 20) {
+      marginClass = 'margin-bad';
+    } else if (margin < 40) {
+      marginClass = 'margin-warning';
+    }
+    
+    document.getElementById('marginPercentage').className = `margin-indicator ${marginClass}`;
+  }
+
+  // Загрузка данных дашборда
+  async function loadDashboardData() {
+    showLoading(true);
+    
+    try {
+      // Загружаем товары
+      products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      
+      // Загружаем заказы
+      orders = JSON.parse(localStorage.getItem('orders')) || [];
+      
+      // Обновляем статистику
+      updateDashboardStats();
+      
+      // Обновляем графики
+      updateDashboardCharts();
+      
+    } catch (error) {
+      console.error('Ошибка загрузки данных:', error);
+      showNotification('Ошибка загрузки данных', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Обновление статистики на дашборде
+  function updateDashboardStats() {
+    // Общая выручка и прибыль
+    let totalRevenue = 0;
+    let totalCost = 0;
+    let totalProfit = 0;
+    let orderCounts = { new: 0, processing: 0, delivery: 0, completed: 0, cancelled: 0 };
+    
+    orders.forEach(order => {
+      // Сумма заказа
+      const amount = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      totalRevenue += amount;
+      
+      // Себестоимость (если есть данные)
+      if (order.cost) {
+        totalCost += order.cost;
+      } else {
+        // Оцениваем себестоимость как 60% от цены, если нет данных
+        totalCost += amount * 0.6;
+      }
+      
+      // Считаем заказы по статусам
+      if (ORDER_STATUSES[order.status]) {
+        orderCounts[order.status]++;
+      } else {
+        orderCounts.new++;
+      }
+    });
+    
+    // Прибыль
+    totalProfit = totalRevenue - totalCost;
+    const avgMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100) : 0;
+    
+    // Обновляем элементы
+    document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+    document.getElementById('totalProfit').textContent = formatCurrency(totalProfit);
+    document.getElementById('avgMargin').textContent = `${avgMargin.toFixed(1)}%`;
+    document.getElementById('totalOrders').textContent = orders.length;
+    
+    // Статусы заказов
+    document.getElementById('newOrders').textContent = orderCounts.new;
+    document.getElementById('processingOrders').textContent = orderCounts.processing;
+    document.getElementById('deliveryOrders').textContent = orderCounts.delivery;
+    document.getElementById('completedOrders').textContent = orderCounts.completed;
+  }
+
+  // Обновление графиков дашборда
+  function updateDashboardCharts() {
+    // График прибыли
+    const profitCtx = document.getElementById('profitChart').getContext('2d');
+    
+    if (profitChart) {
+      profitChart.destroy();
+    }
+    
+    // Генерируем тестовые данные за последние 7 дней
+    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    const revenueData = days.map(() => Math.floor(Math.random() * 50000) + 20000);
+    const profitData = revenueData.map(revenue => Math.floor(revenue * (0.3 + Math.random() * 0.2)));
+    
+    profitChart = new Chart(profitCtx, {
+      type: 'line',
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: 'Выручка',
+            data: revenueData,
+            borderColor: '#FFD700',
+            backgroundColor: 'rgba(255, 215, 0, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          },
+          {
+            label: 'Прибыль',
+            data: profitData,
+            borderColor: '#2ecc71',
+            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'var(--admin-text)'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'var(--admin-text-light)',
+              callback: function(value) {
+                return (value / 1000).toFixed(0) + 'k';
+              }
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'var(--admin-text-light)'
+            }
+          }
+        }
+      }
+    });
+    
+    // График статусов заказов
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    
+    if (ordersChart) {
+      ordersChart.destroy();
+    }
+    
+    // Считаем реальные данные по статусам
+    const statusCounts = {
+      'Новые': orders.filter(o => !o.status || o.status === 'new').length,
+      'В обработке': orders.filter(o => o.status === 'processing').length,
+      'Ждет доставки': orders.filter(o => o.status === 'delivery').length,
+      'Завершены': orders.filter(o => o.status === 'completed').length,
+      'Отменены': orders.filter(o => o.status === 'cancelled').length
+    };
+    
+    ordersChart = new Chart(ordersCtx, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(statusCounts),
+        datasets: [{
+          data: Object.values(statusCounts),
+          backgroundColor: [
+            'rgba(52, 152, 219, 0.8)',
+            'rgba(241, 196, 15, 0.8)',
+            'rgba(155, 89, 182, 0.8)',
+            'rgba(39, 174, 96, 0.8)',
+            'rgba(231, 76, 60, 0.8)'
+          ],
+          borderWidth: 2,
+          borderColor: 'var(--admin-secondary)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: 'var(--admin-text)',
+              padding: 20
+            }
+          }
+        },
+        cutout: '70%'
+      }
+    });
+  }
+
+  // Форматирование валюты
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: 'RUB',
+      minimumFractionDigits: 0
+    }).format(amount);
+  }
+
+  // Загрузка таблицы товаров
+  function loadProductsTable() {
+    showLoading(true);
+    
+    try {
+      products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      const container = document.getElementById('productsTable');
+      
+      if (products.length === 0) {
+        container.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 2rem; color: var(--admin-text-light);">
+              <i class="fas fa-box-open" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+              Товаров пока нет
+            </td>
+          </tr>
+        `;
+        showLoading(false);
+        return;
+      }
+      
+      container.innerHTML = products.map(product => {
+        const cost = product.cost || 0;
+        const price = product.price || 0;
+        const profit = price - cost;
+        const margin = price > 0 ? ((profit / price) * 100) : 0;
+        
+        let marginClass = 'margin-good';
+        if (margin < 20) {
+          marginClass = 'margin-bad';
+        } else if (margin < 40) {
+          marginClass = 'margin-warning';
+        }
+        
+        return `
+          <tr>
+            <td><strong>#${product.id}</strong></td>
+            <td>${product.name}</td>
+            <td><span class="status-badge ${product.type === 'original' ? 'status-active' : 'status-pending'}">
+              ${product.type === 'original' ? 'Оригинал' : 'Реплика'}
+            </span></td>
+            <td>${formatCurrency(cost)}</td>
+            <td>${formatCurrency(price)}</td>
+            <td><span class="margin-indicator ${marginClass}">${margin.toFixed(1)}%</span></td>
+            <td><span class="profit-badge ${profit >= 0 ? 'profit-positive' : 'profit-negative'}">
+              ${formatCurrency(profit)}
+            </span></td>
+            <td><span class="status-badge ${product.availability === 'in_stock' ? 'status-active' : 'status-processing'}">
+              ${product.availability === 'in_stock' ? 'В наличии' : 'Под заказ'}
+            </span></td>
+            <td>
+              <div class="table-actions">
+                <button class="action-btn edit" onclick="editProduct(${product.id})">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete" onclick="deleteProduct(${product.id})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      
+    } catch (error) {
+      console.error('Ошибка загрузки товаров:', error);
+      showNotification('Ошибка загрузки товаров', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Добавление товара с учетом себестоимости
+  function addProduct() {
+    showLoading(true);
+    
+    try {
+      // Получаем данные из формы
+      const productId = Date.now();
+      const productName = document.getElementById('productName').value.trim();
+      const productCategory = document.getElementById('productCategory').value;
+      const productType = document.getElementById('productType').value;
+      const productAvailability = document.getElementById('productAvailability').value;
+      const productCost = parseFloat(document.getElementById('productCost').value) || 0;
+      const productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
+      const productDescription = document.getElementById('productDescription').value.trim();
+      const productImages = document.getElementById('productImages').value.split(',').map(url => url.trim()).filter(url => url);
+      
+      // Валидация
+      if (!productName || !productCategory || !productType || !productCost || !productPrice || !productDescription || productImages.length === 0) {
+        showNotification('Заполните все обязательные поля', 'error');
+        showLoading(false);
+        return;
+      }
+      
+      if (productCost >= productPrice) {
+        showNotification('Себестоимость должна быть меньше цены продажи', 'error');
+        showLoading(false);
+        return;
+      }
+      
+      // Рассчитываем прибыль и маржу
+      const profit = productPrice - productCost;
+      const margin = (profit / productPrice * 100).toFixed(1);
+      
+      // 1. Создаем товар для каталога
+      const catalogProduct = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        originalPrice: Math.round(productPrice * 1.5),
+        type: productType,
+        category: productCategory,
+        image: productImages[0],
+        rating: 4.0 + (Math.random() * 0.5),
+        reviews: Math.floor(Math.random() * 50),
+        badge: 'Новинка',
+        inStock: productAvailability === 'in_stock',
+        deliveryTime: productType === 'original' ? '7-14 дней' : '2-3 часа'
+      };
+      
+      // Добавляем в каталог
+      let catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+      catalogProducts.push(catalogProduct);
+      localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
+      
+      // 2. Создаем детализированную версию для страницы товара
+      const detailedProduct = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        originalPrice: catalogProduct.originalPrice,
+        type: productType,
+        category: productCategory,
+        description: productDescription,
+        images: productImages,
+        sizes: document.getElementById('productSizes').value.split(',').map(s => s.trim()).filter(s => s) || ['M', 'L', 'XL'],
+        color: document.getElementById('productColor').value.trim() || 'Черный',
+        material: 'Хлопок 100%',
+        inStock: productAvailability === 'in_stock',
+        stockCount: parseInt(document.getElementById('productStock').value) || 10,
+        rating: catalogProduct.rating,
+        reviews: [],
+        deliveryTime: catalogProduct.deliveryTime,
+        profit: profit,
+        margin: margin
+      };
+      
+      // Добавляем в детализированные товары
+      let detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      detailedProducts[productId] = detailedProduct;
+      localStorage.setItem('detailedProducts', JSON.stringify(detailedProducts));
+      
+      // 3. Создаем админскую версию (с себестоимостью)
+      const adminProduct = {
+        id: productId,
+        name: productName,
+        category: productCategory,
+        type: productType,
+        availability: productAvailability,
+        cost: productCost,
+        price: productPrice,
+        profit: profit,
+        margin: margin,
+        stock: parseInt(document.getElementById('productStock').value) || 10,
+        sizes: detailedProduct.sizes,
+        color: detailedProduct.color,
+        description: productDescription,
+        images: productImages,
+        createdAt: new Date().toISOString(),
+        rating: catalogProduct.rating,
+        reviews: [],
+        badge: 'Новинка',
+        deliveryTime: catalogProduct.deliveryTime
+      };
+      
+      // Добавляем в админские товары
+      let adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      adminProducts.push(adminProduct);
+      localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+      
+      // 4. Добавляем в популярные товары
+      let popularProducts = JSON.parse(localStorage.getItem('popularProducts')) || [];
+      popularProducts.push({
+        id: productId,
+        name: productName,
+        price: productPrice,
+        cost: productCost,
+        image: productImages[0],
+        type: productType,
+        category: productCategory,
+        inStock: productAvailability === 'in_stock',
+        profit: profit
+      });
+      
+      // Оставляем только последние 12 товаров
+      popularProducts = popularProducts.slice(-12);
+      localStorage.setItem('popularProducts', JSON.stringify(popularProducts));
+      
+      showNotification(`✅ Товар "${productName}" успешно добавлен! Прибыль: ${profit.toLocaleString()} ₽ (${margin}%)`, 'success');
+      resetProductForm();
+      loadProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка при добавлении товара:', error);
+      showNotification('Ошибка при добавлении товара', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  function resetProductForm() {
+    document.getElementById('productName').value = '';
+    document.getElementById('productCategory').value = '';
+    document.getElementById('productType').value = '';
+    document.getElementById('productAvailability').value = 'in_stock';
+    document.getElementById('productCost').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('productStock').value = '10';
+    document.getElementById('productSizes').value = '';
+    document.getElementById('productColor').value = '';
+    document.getElementById('productDescription').value = '';
+    document.getElementById('productImages').value = '';
+    document.getElementById('imagePreview').innerHTML = '';
+    calculateMargin();
+    
+    showNotification('Форма очищена', 'info');
+  }
+
+  function editProduct(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+      showNotification('Товар не найден', 'error');
+      return;
+    }
+    
+    // Переключаемся на вкладку добавления и заполняем форму
+    switchTab('addProduct');
+    
+    // Заполняем форму данными товара
+    setTimeout(() => {
+      document.getElementById('productName').value = product.name || '';
+      document.getElementById('productCategory').value = product.category || '';
+      document.getElementById('productType').value = product.type || '';
+      document.getElementById('productAvailability').value = product.availability || 'in_stock';
+      document.getElementById('productCost').value = product.cost || '';
+      document.getElementById('productPrice').value = product.price || '';
+      document.getElementById('productStock').value = product.stock || 10;
+      document.getElementById('productSizes').value = product.sizes ? product.sizes.join(', ') : '';
+      document.getElementById('productColor').value = product.color || '';
+      document.getElementById('productDescription').value = product.description || '';
+      document.getElementById('productImages').value = product.images ? product.images.join(', ') : '';
+      
+      calculateMargin();
+      showNotification('Форма заполнена данными товара. Обновите информацию и сохраните изменения.', 'info');
+    }, 300);
+  }
+
+  function deleteProduct(productId) {
+    if (!confirm('Вы уверены, что хотите удалить этот товар? Это действие нельзя отменить.')) {
+      return;
+    }
+    
+    showLoading(true);
+    
+    try {
+      // Удаляем из всех хранилищ
+      let adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+      adminProducts = adminProducts.filter(p => p.id !== productId);
+      localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
+      
+      let catalogProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+      catalogProducts = catalogProducts.filter(p => p.id !== productId);
+      localStorage.setItem('catalogProducts', JSON.stringify(catalogProducts));
+      
+      let detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      delete detailedProducts[productId];
+      localStorage.setItem('detailedProducts', JSON.stringify(detailedProducts));
+      
+      let popularProducts = JSON.parse(localStorage.getItem('popularProducts')) || [];
+      popularProducts = popularProducts.filter(p => p.id !== productId);
+      localStorage.setItem('popularProducts', JSON.stringify(popularProducts));
+      
+      showNotification('Товар успешно удален', 'success');
+      loadProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка при удалении товара:', error);
+      showNotification('Ошибка при удалении товара', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  // Загрузка заказов с учетом себестоимости и прибыли
+  function loadOrders() {
+    showLoading(true);
+    
+    orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const container = document.getElementById('ordersTable');
+    
+    if (orders.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 2rem; color: var(--admin-text-light);">
+            <i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            Заказов пока нет
+          </td>
+        </tr>
+      `;
+      showLoading(false);
+      return;
+    }
+    
+    // Загружаем детальную информацию о товарах для расчета себестоимости
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    
+    const sortedOrders = [...orders].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    
+    container.innerHTML = sortedOrders.map(order => {
+      // Рассчитываем себестоимость и прибыль для заказа
+      let totalCost = 0;
+      let totalRevenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      let profit = 0;
+      
+      if (order.items && order.items.length > 0) {
+        order.items.forEach(item => {
+          const product = detailedProducts[item.id];
+          if (product && product.cost) {
+            totalCost += product.cost * (item.quantity || 1);
+          } else {
+            // Если нет данных о себестоимости, оцениваем как 60% от цены
+            totalCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+          }
+        });
+      } else {
+        // Если нет данных о товарах, оцениваем себестоимость как 60% от выручки
+        totalCost = totalRevenue * 0.6;
+      }
+      
+      profit = totalRevenue - totalCost;
+      const margin = totalRevenue > 0 ? ((profit / totalRevenue) * 100) : 0;
+      
+      // Определяем статус
+      const status = order.status || 'new';
+      const statusInfo = ORDER_STATUSES[status] || ORDER_STATUSES['new'];
+      
+      return `
+        <tr>
+          <td><strong>#${order.id || '0000'}</strong></td>
+          <td>${formatDate(order.date)}</td>
+          <td>${order.name || 'Без имени'}<br><small>${order.phone || ''}</small></td>
+          <td>${order.items ? order.items.length + ' шт.' : 'Нет данных'}</td>
+          <td>${formatCurrency(totalRevenue)}</td>
+          <td>${formatCurrency(totalCost)}</td>
+          <td><span class="profit-badge ${profit >= 0 ? 'profit-positive' : 'profit-negative'}">
+            ${formatCurrency(profit)}<br><small>${margin.toFixed(1)}%</small>
+          </span></td>
+          <td>
+            <span class="status-badge ${statusInfo.class}">
+              <i class="${statusInfo.icon}"></i> ${statusInfo.name}
+            </span>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="action-btn view" onclick="viewOrder('${order.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn edit" onclick="editOrder('${order.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn delete" onclick="deleteOrder('${order.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+    
+    showLoading(false);
+  }
+
+  function viewOrder(orderId) {
+    const order = orders.find(o => o.id == orderId);
+    
+    if (!order) {
+      showNotification('Заказ не найден', 'error');
+      return;
+    }
+    
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    let itemsText = '';
+    let totalCost = 0;
+    let totalRevenue = 0;
+    
+    if (order.items && order.items.length > 0) {
+      itemsText = order.items.map(item => {
+        const product = detailedProducts[item.id];
+        const cost = product ? product.cost || 0 : 0;
+        const itemCost = cost * (item.quantity || 1);
+        totalCost += itemCost;
+        totalRevenue += (item.price || 0) * (item.quantity || 1);
+        
+        return `${item.name} - ${item.quantity || 1} шт. × ${formatCurrency(item.price)} = ${formatCurrency(item.price * (item.quantity || 1))} (себестоимость: ${formatCurrency(itemCost)})`;
+      }).join('\n');
+    } else {
+      totalRevenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      totalCost = totalRevenue * 0.6;
+    }
+    
+    const profit = totalRevenue - totalCost;
+    const margin = totalRevenue > 0 ? ((profit / totalRevenue) * 100) : 0;
+    const status = order.status || 'new';
+    const statusInfo = ORDER_STATUSES[status] || ORDER_STATUSES['new'];
+    
+    const message = `
+Заказ #${order.id}
+Дата: ${order.date || 'Не указана'}
+Статус: ${statusInfo.name}
+
+Клиент: ${order.name || 'Не указан'}
+Телефон: ${order.phone || 'Не указан'}
+Email: ${order.email || 'Не указан'}
+Адрес: ${order.address || 'Не указан'}
+
+Товары:
+${itemsText || 'Нет информации'}
+
+Финансы:
+Выручка: ${formatCurrency(totalRevenue)}
+Себестоимость: ${formatCurrency(totalCost)}
+Прибыль: ${formatCurrency(profit)} (${margin.toFixed(1)}%)
+    `.trim();
+
+    alert(message);
+  }
+
+  function editOrder(orderId) {
+    const order = orders.find(o => o.id == orderId);
+    
+    if (!order) {
+      showNotification('Заказ не найден', 'error');
+      return;
+    }
+    
+    const statusHtml = Object.entries(ORDER_STATUSES).map(([key, value]) => `
+      <option value="${key}" ${order.status === key ? 'selected' : ''}>
+        ${value.name}
+      </option>
+    `).join('');
+    
+    const modalContent = `
+      <div style="padding: 1rem 0;">
+        <div class="form-group">
+          <label class="form-label">Статус заказа</label>
+          <select id="editOrderStatus" class="form-control">
+            ${statusHtml}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Комментарий к заказу</label>
+          <textarea id="editOrderComment" class="form-control" placeholder="Комментарий...">${order.comment || ''}</textarea>
+        </div>
+        <div class="form-actions" style="margin-top: 1.5rem;">
+          <button class="btn btn-primary" onclick="saveOrderChanges('${orderId}')">
+            <i class="fas fa-save"></i> Сохранить изменения
+          </button>
+        </div>
+      </div>
+    `;
+    
+    showCustomModal('Редактирование заказа #' + order.id, modalContent);
+  }
+
+  function saveOrderChanges(orderId) {
+    const orderIndex = orders.findIndex(o => o.id == orderId);
+    
+    if (orderIndex === -1) {
+      showNotification('Заказ не найден', 'error');
+      return;
+    }
+    
+    const newStatus = document.getElementById('editOrderStatus').value;
+    const comment = document.getElementById('editOrderComment').value;
+    
+    orders[orderIndex].status = newStatus;
+    orders[orderIndex].comment = comment;
+    orders[orderIndex].updatedAt = new Date().toISOString();
+    
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
+    // Закрываем модальное окно
+    document.querySelector('.modal-backdrop')?.remove();
+    document.querySelector('.custom-modal')?.remove();
+    
+    showNotification('Статус заказа обновлен', 'success');
+    loadOrders();
+    loadDashboardData(); // Обновляем статистику
+  }
+
+  function deleteOrder(orderId) {
+    if (!confirm('Вы уверены, что хотите удалить этот заказ? Это действие нельзя отменить.')) {
+      return;
+    }
+    
+    orders = orders.filter(o => o.id != orderId);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
+    showNotification('Заказ удален', 'success');
+    loadOrders();
+    loadDashboardData();
+  }
+
+  function filterOrders() {
+    const statusFilter = document.getElementById('orderStatusFilter').value;
+    const dateFrom = document.getElementById('orderDateFrom').value;
+    const dateTo = document.getElementById('orderDateTo').value;
+    
+    let filteredOrders = [...orders];
+    
+    if (statusFilter !== 'all') {
+      filteredOrders = filteredOrders.filter(order => order.status === statusFilter);
+    }
+    
+    if (dateFrom) {
+      const fromDate = new Date(dateFrom);
+      filteredOrders = filteredOrders.filter(order => {
+        const orderDate = new Date(order.date || 0);
+        return orderDate >= fromDate;
+      });
+    }
+    
+    if (dateTo) {
+      const toDate = new Date(dateTo);
+      toDate.setHours(23, 59, 59, 999);
+      filteredOrders = filteredOrders.filter(order => {
+        const orderDate = new Date(order.date || 0);
+        return orderDate <= toDate;
+      });
+    }
+    
+    // Обновляем таблицу с отфильтрованными заказами
+    const container = document.getElementById('ordersTable');
+    
+    if (filteredOrders.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 2rem; color: var(--admin-text-light);">
+            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            Заказы не найдены по выбранным фильтрам
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    // Повторяем логику отображения заказов
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    
+    container.innerHTML = filteredOrders.map(order => {
+      let totalCost = 0;
+      let totalRevenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+      
+      if (order.items && order.items.length > 0) {
+        order.items.forEach(item => {
+          const product = detailedProducts[item.id];
+          if (product && product.cost) {
+            totalCost += product.cost * (item.quantity || 1);
+          } else {
+            totalCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+          }
+        });
+      } else {
+        totalCost = totalRevenue * 0.6;
+      }
+      
+      const profit = totalRevenue - totalCost;
+      const margin = totalRevenue > 0 ? ((profit / totalRevenue) * 100) : 0;
+      const status = order.status || 'new';
+      const statusInfo = ORDER_STATUSES[status] || ORDER_STATUSES['new'];
+      
+      return `
+        <tr>
+          <td><strong>#${order.id || '0000'}</strong></td>
+          <td>${formatDate(order.date)}</td>
+          <td>${order.name || 'Без имени'}<br><small>${order.phone || ''}</small></td>
+          <td>${order.items ? order.items.length + ' шт.' : 'Нет данных'}</td>
+          <td>${formatCurrency(totalRevenue)}</td>
+          <td>${formatCurrency(totalCost)}</td>
+          <td><span class="profit-badge ${profit >= 0 ? 'profit-positive' : 'profit-negative'}">
+            ${formatCurrency(profit)}<br><small>${margin.toFixed(1)}%</small>
+          </span></td>
+          <td>
+            <span class="status-badge ${statusInfo.class}">
+              <i class="${statusInfo.icon}"></i> ${statusInfo.name}
+            </span>
+          </td>
+          <td>
+            <div class="table-actions">
+              <button class="action-btn view" onclick="viewOrder('${order.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn edit" onclick="editOrder('${order.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Финансовый отчет
+  function updateFinanceReport() {
+    showLoading(true);
+    
+    try {
+      const period = document.getElementById('financePeriod').value;
+      const reportType = document.getElementById('financeType').value;
+      
+      // Фильтруем заказы по периоду
+      let filteredOrders = [...orders];
+      const now = new Date();
+      
+      switch(period) {
+        case 'today':
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= today);
+          break;
+        case 'yesterday':
+          const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+          const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => {
+            const orderDate = new Date(order.date);
+            return orderDate >= yesterday && orderDate < todayStart;
+          });
+          break;
+        case 'week':
+          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= weekAgo);
+          break;
+        case 'month':
+          const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= monthAgo);
+          break;
+        case 'quarter':
+          const quarterAgo = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= quarterAgo);
+          break;
+        case 'year':
+          const yearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+          filteredOrders = filteredOrders.filter(order => new Date(order.date) >= yearAgo);
+          break;
+        // 'all' - все заказы
+      }
+      
+      // Рассчитываем финансовые показатели
+      let totalRevenue = 0;
+      let totalCost = 0;
+      let totalProfit = 0;
+      
+      const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+      
+      filteredOrders.forEach(order => {
+        const revenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+        totalRevenue += revenue;
+        
+        let orderCost = 0;
+        if (order.items && order.items.length > 0) {
+          order.items.forEach(item => {
+            const product = detailedProducts[item.id];
+            if (product && product.cost) {
+              orderCost += product.cost * (item.quantity || 1);
+            } else {
+              orderCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+            }
+          });
+        } else {
+          orderCost = revenue * 0.6;
+        }
+        
+        totalCost += orderCost;
+      });
+      
+      totalProfit = totalRevenue - totalCost;
+      const avgMargin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100) : 0;
+      
+      // Обновляем показатели
+      document.getElementById('periodRevenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('periodProfit').textContent = formatCurrency(totalProfit);
+      document.getElementById('periodMargin').textContent = `${avgMargin.toFixed(1)}%`;
+      document.getElementById('periodOrders').textContent = filteredOrders.length;
+      
+      // Обновляем детализированную таблицу
+      updateFinanceDetailsTable(filteredOrders, reportType);
+      
+    } catch (error) {
+      console.error('Ошибка обновления финансового отчета:', error);
+      showNotification('Ошибка обновления отчета', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  function updateFinanceDetailsTable(filteredOrders, reportType) {
+    const container = document.getElementById('financeDetailsTable');
+    const detailedProducts = JSON.parse(localStorage.getItem('detailedProducts')) || {};
+    
+    if (filteredOrders.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: var(--admin-text-light);">
+            <i class="fas fa-chart-bar" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            Нет данных за выбранный период
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    // Группируем заказы по дате
+    const ordersByDate = {};
+    filteredOrders.forEach(order => {
+      const date = new Date(order.date).toLocaleDateString('ru-RU');
+      if (!ordersByDate[date]) {
+        ordersByDate[date] = [];
+      }
+      ordersByDate[date].push(order);
+    });
+    
+    // Сортируем даты
+    const sortedDates = Object.keys(ordersByDate).sort((a, b) => new Date(b) - new Date(a));
+    
+    // Создаем строки таблицы
+    let tableRows = '';
+    
+    sortedDates.forEach(date => {
+      const dateOrders = ordersByDate[date];
+      let dateRevenue = 0;
+      let dateCost = 0;
+      let dateProfit = 0;
+      
+      dateOrders.forEach(order => {
+        const revenue = parseFloat(order.total?.replace(/[^\d]/g, '') || 0);
+        dateRevenue += revenue;
+        
+        let orderCost = 0;
+        if (order.items && order.items.length > 0) {
+          order.items.forEach(item => {
+            const product = detailedProducts[item.id];
+            if (product && product.cost) {
+              orderCost += product.cost * (item.quantity || 1);
+            } else {
+              orderCost += (item.price || 0) * 0.6 * (item.quantity || 1);
+            }
+          });
+        } else {
+          orderCost = revenue * 0.6;
+        }
+        
+        dateCost += orderCost;
+      });
+      
+      dateProfit = dateRevenue - dateCost;
+      const dateMargin = dateRevenue > 0 ? ((dateProfit / dateRevenue) * 100) : 0;
+      
+      tableRows += `
+        <tr>
+          <td>${date}</td>
+          <td>${dateOrders.length}</td>
+          <td>${formatCurrency(dateRevenue)}</td>
+          <td>${formatCurrency(dateCost)}</td>
+          <td><span class="profit-badge ${dateProfit >= 0 ? 'profit-positive' : 'profit-negative'}">
+            ${formatCurrency(dateProfit)}
+          </span></td>
+          <td>${dateMargin.toFixed(1)}%</td>
+        </tr>
+      `;
+    });
+    
+    container.innerHTML = tableRows;
+  }
+
+  // Аналитика
+  function updateAnalytics() {
+    showLoading(true);
+    
+    try {
+      // Обновляем графики
+      updateAnalyticsCharts();
+      
+      // Обновляем таблицу топ-5 товаров
+      updateTopProductsTable();
+      
+    } catch (error) {
+      console.error('Ошибка обновления аналитики:', error);
+      showNotification('Ошибка обновления аналитики', 'error');
+    }
+    
+    showLoading(false);
+  }
+
+  function updateAnalyticsCharts() {
+    // График выручки и прибыли
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    
+    if (revenueChart) {
+      revenueChart.destroy();
+    }
+    
+    // Генерируем данные за последние 30 дней
+    const days = Array.from({length: 30}, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (29 - i));
+      return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    });
+    
+    const revenueData = days.map(() => Math.floor(Math.random() * 80000) + 30000);
+    const profitData = revenueData.map(revenue => Math.floor(revenue * (0.25 + Math.random() * 0.15)));
+    const costData = revenueData.map((revenue, i) => revenue - profitData[i]);
+    
+    revenueChart = new Chart(revenueCtx, {
+      type: 'bar',
+      data: {
+        labels: days,
+        datasets: [
+          {
+            label: 'Выручка',
+            data: revenueData,
+            backgroundColor: 'rgba(255, 215, 0, 0.7)',
+            borderColor: '#FFD700',
+            borderWidth: 1
+          },
+          {
+            label: 'Прибыль',
+            data: profitData,
+            backgroundColor: 'rgba(46, 204, 113, 0.7)',
+            borderColor: '#2ecc71',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'var(--admin-text)'
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'var(--admin-text-light)',
+              callback: function(value) {
+                return (value / 1000).toFixed(0) + 'k';
+              }
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'var(--admin-text-light)',
+              maxRotation: 45
+            }
+          }
+        }
+      }
+    });
+    
+    // График продаж по категориям
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    
+    if (categoryChart) {
+      categoryChart.destroy();
+    }
+    
+    const categories = ['Обувь', 'Мужская одежда', 'Женская одежда', 'Аксессуары', 'Верхняя одежда'];
+    const categoryData = categories.map(() => Math.floor(Math.random() * 500000) + 200000);
+    const categoryProfit = categoryData.map(revenue => Math.floor(revenue * (0.2 + Math.random() * 0.2)));
+    
+    categoryChart = new Chart(categoryCtx, {
+      type: 'polarArea',
+      data: {
+        labels: categories,
+        datasets: [{
+          data: categoryData,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)'
+          ],
+          borderWidth: 2,
+          borderColor: 'var(--admin-secondary)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: 'var(--admin-text)',
+              padding: 20
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function updateTopProductsTable() {
+    const container = document.getElementById('topProductsTable');
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+    
+    // Сортируем товары по прибыльности (profit * популярность)
+    const topProducts = adminProducts
+      .map(product => {
+        // Оцениваем "продажи" как случайное число для демонстрации
+        const sales = Math.floor(Math.random() * 100) + 10;
+        const revenue = (product.price || 0) * sales;
+        const profit = (product.profit || 0) * sales;
+        const margin = product.margin || 0;
+        
+        return {
+          name: product.name,
+          sales: sales,
+          revenue: revenue,
+          profit: profit,
+          margin: margin
+        };
+      })
+      .sort((a, b) => b.profit - a.profit)
+      .slice(0, 5);
+    
+    if (topProducts.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 1rem; color: var(--admin-text-light);">
+            Нет данных о продажах
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    container.innerHTML = topProducts.map((product, index) => `
+      <tr>
+        <td><strong>${index + 1}. ${product.name}</strong></td>
+        <td>${product.sales} шт.</td>
+        <td>${formatCurrency(product.revenue)}</td>
+        <td><span class="profit-badge profit-positive">${formatCurrency(product.profit)}</span></td>
+        <td>${product.margin.toFixed(1)}%</td>
+      </tr>
+    `).join('');
+  }
+
+  // Настройки
+  function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem('adminSettings')) || {};
+    
+    document.getElementById('shopName').value = settings.shopName || 'DROP SHOP Якутск';
+    document.getElementById('shopPhone').value = settings.shopPhone || '+7 (999) 123-45-67';
+    document.getElementById('shopEmail').value = settings.shopEmail || 'info@dropshop-ykt.ru';
+    document.getElementById('shopAddress').value = settings.shopAddress || 'Якутск, ул. Ленина, 15';
+    document.getElementById('telegramToken').value = settings.telegramToken || '';
+    document.getElementById('telegramChatId').value = settings.telegramChatId || '';
+    
+    document.getElementById('deliveryYakutsk').checked = settings.deliveryYakutsk !== false;
+    document.getElementById('pickupAvailable').checked = settings.pickupAvailable !== false;
+    document.getElementById('freeDelivery').checked = settings.freeDelivery !== false;
+  }
+
+  function saveSettings() {
+    const settings = {
+      shopName: document.getElementById('shopName').value,
+      shopPhone: document.getElementById('shopPhone').value,
+      shopEmail: document.getElementById('shopEmail').value,
+      shopAddress: document.getElementById('shopAddress').value,
+      telegramToken: document.getElementById('telegramToken').value,
+      telegramChatId: document.getElementById('telegramChatId').value,
+      deliveryYakutsk: document.getElementById('deliveryYakutsk').checked,
+      pickupAvailable: document.getElementById('pickupAvailable').checked,
+      freeDelivery: document.getElementById('freeDelivery').checked,
+      updatedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('adminSettings', JSON.stringify(settings));
+    showNotification('Настройки сохранены', 'success');
+  }
+
+  function resetSettings() {
+    if (confirm('Сбросить настройки к значениям по умолчанию?')) {
+      localStorage.removeItem('adminSettings');
+      loadSettings();
+      showNotification('Настройки сброшены', 'info');
+    }
+  }
+
+  // Вспомогательные функции
+  function formatDate(dateString) {
+    if (!dateString) return 'Дата не указана';
+    
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (e) {
+      return dateString;
+    }
+  }
+
+  function showCustomModal(title, content) {
+    // Удаляем существующие модальные окна
+    document.querySelectorAll('.modal-backdrop, .custom-modal').forEach(el => el.remove());
+    
+    // Создаем оверлей
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    backdrop.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+    `;
+    
+    // Создаем модальное окно
+    const modal = document.createElement('div');
+    modal.className = 'custom-modal';
+    modal.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--admin-secondary);
+      border-radius: 15px;
+      padding: 2rem;
+      min-width: 400px;
+      max-width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      z-index: 10000;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    `;
+    
+    modal.innerHTML = `
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: var(--admin-accent);">
+          ${title}
+        </h3>
+        ${content}
+      </div>
+      <button onclick="this.closest('.custom-modal').remove(); this.closest('.modal-backdrop').remove();" 
+              style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--admin-text-light); font-size: 1.5rem; cursor: pointer;">
+        &times;
+      </button>
+    `;
+    
+    // Добавляем в DOM
+    document.body.appendChild(backdrop);
+    document.body.appendChild(modal);
+    
+    // Закрытие по клику на оверлей
+    backdrop.addEventListener('click', function() {
+      backdrop.remove();
+      modal.remove();
+    });
+  }
+
+  // Предпросмотр изображений
+  document.getElementById('productImages').addEventListener('input', function() {
+    const urls = this.value.split(',').map(url => url.trim()).filter(url => url);
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+    
+    urls.slice(0, 5).forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.className = 'preview-image';
+      img.onerror = function() {
+        this.src = 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=200&h=150&q=80';
+      };
+      preview.appendChild(img);
+    });
+  });
+
+  // Проверка авторизации при загрузке
+  document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+    
+    if (isLoggedIn) {
+      const sessionData = localStorage.getItem('adminSession');
+      if (sessionData) {
+        try {
+          const session = JSON.parse(atob(sessionData));
+          const sessionAge = Date.now() - session.timestamp;
+          
+          if (sessionAge < 8 * 60 * 60 * 1000) {
+            showAdminPanel();
+            return;
+          }
+        } catch (e) {
+          console.error('Ошибка парсинга сессии:', e);
+        }
+      }
+      
+      logoutAdmin();
+    }
+    
+    // Инициализация расчета маржи
+    calculateMargin();
+  });
+</script>
+</body>
+</html>

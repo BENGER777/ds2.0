@@ -4,24 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>DROP SHOP | Карточка товара</title>
-<meta name="description" content="Детальное описание товара DROP SHOP. Фото, характеристики, отзывы.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root { --bg: #ffffff; --surface: #f5f5f7; --text: #1d1d1f; --text-secondary: #86868b; --border: rgba(0,0,0,0.08); --accent: #007aff; --accent-hover: #005fc9; --shadow-sm: 0 2px 8px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.03); --shadow-md: 0 8px 28px rgba(0,0,0,0.08); --transition: 0.2s cubic-bezier(0.25, 0.1, 0.25, 1); --radius: 18px; --radius-sm: 12px; }
   [data-theme="dark"] { --bg: #000000; --surface: #1c1c1e; --text: #ffffff; --text-secondary: #98989d; --border: rgba(255,255,255,0.1); --accent: #0a84ff; --accent-hover: #409cff; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-  /* Хедер (как в каталоге) */
   .header { position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; }
   [data-theme="dark"] .header { background: rgba(0,0,0,0.7); }
-  .header-content { display: flex; justify-content: space-between; align-items: center; height: 70px; flex-wrap: wrap; gap: 15px; }
-  .logo { font-weight: 600; font-size: 21px; letter-spacing: -0.3px; text-decoration: none; color: var(--text); white-space: nowrap; }
+  .header-content { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+  .logo { font-weight: 600; font-size: 21px; text-decoration: none; color: var(--text); }
   .nav { display: flex; gap: 32px; }
   .nav-link { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
   .nav-link:hover, .nav-link.active { color: var(--text); }
-  .header-actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .header-actions { display: flex; gap: 20px; align-items: center; }
   .action-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text); position: relative; transition: transform 0.1s; }
   .action-btn:active { transform: scale(0.96); }
   .badge { position: absolute; top: -6px; right: -10px; background: var(--accent); color: white; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 20px; }
@@ -32,10 +30,10 @@
   .mobile-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 150; display: none; }
   .mobile-overlay.active { display: block; }
   .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 60px 0; }
-  @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; gap: 30px; } .nav { display: none; } .burger-menu { display: block; } .header-actions { gap: 10px; } .container { padding: 0 16px; } }
+  @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; gap: 30px; } .nav { display: none; } .burger-menu { display: block; } }
   .gallery { position: sticky; top: 100px; }
   .main-image { width: 100%; border-radius: var(--radius); cursor: pointer; }
-  .thumbnails { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .thumbnails { display: flex; gap: 12px; margin-top: 16px; }
   .thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; cursor: pointer; border: 2px solid transparent; transition: var(--transition); }
   .thumbnail.active { border-color: var(--accent); }
   .product-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
@@ -48,7 +46,7 @@
   .size-options { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
   .size-btn { width: 60px; height: 50px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); cursor: pointer; font-weight: 600; transition: var(--transition); }
   .size-btn.selected { background: var(--accent); color: white; border-color: var(--accent); }
-  .product-actions { display: flex; gap: 16px; margin: 30px 0; flex-wrap: wrap; }
+  .product-actions { display: flex; gap: 16px; margin: 30px 0; }
   .btn { padding: 14px 28px; border-radius: 30px; font-weight: 600; border: none; cursor: pointer; transition: var(--transition); }
   .btn-primary { background: var(--accent); color: white; flex: 1; }
   .btn-primary:hover { background: var(--accent-hover); transform: scale(1.02); }
@@ -56,21 +54,16 @@
   .section-title { font-size: 24px; font-weight: 600; margin: 40px 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); }
   .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; background: var(--surface); padding: 24px; border-radius: var(--radius); }
   .review-card { background: var(--surface); padding: 20px; border-radius: var(--radius-sm); margin-bottom: 16px; }
-  .review-author { font-weight: 600; margin-bottom: 8px; }
-  .review-rating { color: #f1c40f; margin-bottom: 8px; }
-  .add-review-form { background: var(--surface); padding: 24px; border-radius: var(--radius); margin-top: 24px; }
-  .add-review-form input, .add-review-form textarea, .add-review-form select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); margin-bottom: 12px; }
   .footer { background: var(--surface); padding: 48px 0; margin-top: 40px; text-align: center; font-size: 13px; color: var(--text-secondary); }
-  .footer-links { margin-top: 16px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
-  .footer-links a { color: var(--text-secondary); text-decoration: none; }
+  .footer-links { margin-top: 16px; display: flex; justify-content: center; gap: 24px; }
   .live-widget { position: fixed; bottom: 20px; right: 20px; width: 300px; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-radius: 20px; box-shadow: var(--shadow-md); z-index: 1000; border: 1px solid var(--border); }
   [data-theme="dark"] .live-widget { background: rgba(0,0,0,0.8); }
   .live-header { padding: 14px 18px; font-weight: 600; display: flex; justify-content: space-between; cursor: pointer; border-bottom: 1px solid var(--border); }
-  .live-content { max-height: 250px; overflow-y: auto; padding: 12px; display: block; }
+  .live-content { max-height: 250px; overflow-y: auto; padding: 12px; }
   .activity-item { display: flex; gap: 12px; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
   .activity-avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; }
   .notification { position: fixed; bottom: 20px; left: 20px; background: var(--surface); backdrop-filter: blur(20px); padding: 12px 20px; border-radius: 30px; box-shadow: var(--shadow-md); transform: translateX(-120%); transition: transform 0.2s; z-index: 1100; }
-  .scroll-top { position: fixed; bottom: 20px; left: 20px; width: 44px; height: 44px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: 0.2s; box-shadow: var(--shadow-sm); z-index: 1000; }
+  .scroll-top { position: fixed; bottom: 20px; left: 20px; width: 44px; height: 44px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: 0.2s; box-shadow: var(--shadow-sm); }
   .scroll-top.visible { opacity: 1; visibility: visible; }
   .image-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.2s; }
   .image-modal.active { visibility: visible; opacity: 1; }
@@ -146,140 +139,156 @@
 <div id="returnPolicyModal" class="modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:2000;visibility:hidden;opacity:0;transition:0.2s;"><div class="modal-content" style="background:var(--bg);border-radius:18px;max-width:500px;width:90%;padding:24px;"><div class="modal-header" style="display:flex;justify-content:space-between;margin-bottom:20px;"><span>Политика возврата</span><button class="close-modal" onclick="closeModal('returnPolicyModal')" style="background:none;border:none;font-size:24px;">&times;</button></div><p>Вы можете вернуть товар в течение 14 дней. Товар должен быть в оригинальной упаковке. Для возврата: support@dropshop.ru</p></div></div>
 
 <script>
-  // ---------- ЕДИНАЯ БАЗА ТОВАРОВ (полная) ----------
-  let productsDB = JSON.parse(localStorage.getItem('globalProducts'));
-  if (!productsDB) {
-    productsDB = [
-      { id: 1, name: "Nike Air Jordan 1", price: 12990, type: "replica", category: "кроссовки", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800", images: ["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800","https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_400"], sizes: ["EU 40","41","42","43","44","45"], description: "Классические кроссовки Nike Air Jordan 1 — икона уличной моды.", material: "Натуральная кожа", color: "Белый / Темно-синий / Красный", oldPrice: 18990, reviews: [] },
-      { id: 2, name: "New Balance 2002R", price: 34990, type: "original", category: "кроссовки", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800", images: [], sizes: ["EU 40","41","42","43","44","45"], description: "Оригинальные New Balance 2002R — возвращение легендарной модели.", material: "Замша, сетка", color: "Серый", inStock: false, reviews: [] },
-      { id: 3, name: "Hotu x Saqa Omuk", price: 7500, type: "original", category: "футболки", image: "https://sun9-31.userapi.com/s/v1/ig2/Ar-NhY7ygre3H25zf6xC9mvXsKIW_fSvm8FU89KaWRzoestfndSvhJ8UcToqrLrj5Dr7pOEx2IWvAftx6ftaZjvg.jpg?quality=95&as=32x40,48x60,72x90,108x135,160x200,240x300,360x450,480x600,540x675,640x800,720x900,1080x1350&from=bu&u=zCOmzFDYCmjBGsWMC7R8hIqoRvoCzpQHd-PP6AHlG3w&cs=1080x0", images: [], sizes: ["S","M","L","XL","XXL"], description: "Эксклюзивная коллаборация Hotu и якутского бренда Saqa Omuk.", material: "100% хлопок", color: "Белый / Черный принт", reviews: [] },
-      { id: 4, name: "Adidas Originals HANDBALL SPEZIAL", price: 5999, type: "original", category: "кроссовки", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251206/6c7e527a221e4edb8897d33823fdf4d6.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["EU 39","40","41","42","43","44"], description: "Винтажные Adidas Handball Spezial.", material: "Замша, резина", color: "Колумбийский синий", reviews: [] },
-      { id: 5, name: "Nike Dunk Low", price: 14990, type: "original", category: "кроссовки", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251205/cb8924ed3096455db247ad8caf7faa7d.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["EU 40","41","42","43","44","45"], description: "Оригинальные Nike Dunk Low в расцветке 'Panda'.", material: "Гладкая кожа", color: "Черный / Белый", inStock: false, reviews: [] },
-      { id: 6, name: "Thrasher Skate MAG Logo Basic", price: 4990, type: "original", category: "одежда", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250303/785a7bd6f50a42988bd3d02ae36489ee.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["S","M","L","XL"], description: "Оригинальная футболка Thrasher.", material: "Хлопок 100%", color: "Черный", reviews: [] },
-      { id: 7, name: "Jordan DNA", price: 2990, type: "original", category: "одежда", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250306/2988c5399dc5473cb6b9123f9f70f59a.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["S","M","L","XL","XXL"], description: "Майка Jordan DNA с принтом Jumpman.", material: "Полиэстер 60%, хлопок 40%", color: "Белый / Красный", inStock: false, reviews: [] },
-      { id: 8, name: "COACH Graham", price: 12990, type: "original", category: "одежда", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250607/5ae2f8ad6f8a4e3380f6daf5174e7014.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["S","M","L","XL"], description: "Оригинальная худи COACH Graham.", material: "Хлопок 80%, полиэстер 20%", color: "Темно-серый", reviews: [] },
-      { id: 9, name: "PRADA Квадратные Оправы", price: 20990, type: "original", category: "одежда", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20240725/340e98dc8b1d4254afdebf22d7944b3e.png?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["One size"], description: "Оригинальные солнцезащитные очки PRADA.", material: "Ацетат, минеральные линзы", color: "Черный матовый", inStock: false, reviews: [] },
-      { id: 10, name: "Carhartt Худи", price: 13990, type: "original", category: "одежда", image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250331/f9e2fb780c0743e6bc4bc9a04870f875.jpg?x-oss-process=image/resize,s_720/format,webp", images: [], sizes: ["S","M","L","XL","XXL"], description: "Оригинальное худи Carhartt WIP Chase Hoodie.", material: "Хлопок 100%", color: "Хаки", reviews: [] }
-    ];
-    localStorage.setItem('globalProducts', JSON.stringify(productsDB));
-  }
-  // Загружаем отзывы из localStorage (дополняем)
-  let allReviews = JSON.parse(localStorage.getItem('productReviews')) || {};
-  productsDB.forEach(p => { if(allReviews[p.id]) p.reviews = allReviews[p.id]; else p.reviews = p.reviews || []; });
+// ========== БАЗА ТОВАРОВ (синхронизирована с catalog.html) ==========
+const productsDB = [
+  { id:1, name:"Nike Air Jordan 1", price:12990, type:"replica", category:"sneakers", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800"], sizes:["40","41","42","43","44","45"], description:"Классические кроссовки Air Jordan 1 — икона уличной моды.", material:"Кожа, текстиль", color:"Чикаго", oldPrice:18990, inStock:true, reviews:[{author:"Артём",rating:5,text:"Отлично!"}] },
+  { id:2, name:"New Balance 2002R", price:34990, type:"original", category:"sneakers", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800"], sizes:["40","41","42","43","44","45"], description:"Оригинальные New Balance 2002R", material:"Замша, сетка", color:"Серый", oldPrice:0, inStock:false, reviews:[] },
+  { id:3, name:"Hotu x Saqa Omuk", price:7500, type:"original", category:"clothing", image:"https://sun9-31.userapi.com/s/v1/ig2/Ar-NhY7ygre3H25zf6xC9mvXsKIW_fSvm8FU89KaWRzoestfndSvhJ8UcToqrLrj5Dr7pOEx2IWvAftx6ftaZjvg.jpg?quality=95&as=32x40,48x60,72x90,108x135,160x200,240x300,360x450,480x600,540x675,640x800,720x900,1080x1350&from=bu&u=zCOmzFDYCmjBGsWMC7R8hIqoRvoCzpQHd-PP6AHlG3w&cs=1080x0", images:["https://sun9-31.userapi.com/s/v1/ig2/Ar-NhY7ygre3H25zf6xC9mvXsKIW_fSvm8FU89KaWRzoestfndSvhJ8UcToqrLrj5Dr7pOEx2IWvAftx6ftaZjvg.jpg?quality=95&as=32x40,48x60,72x90,108x135,160x200,240x300,360x450,480x600,540x675,640x800,720x900,1080x1350&from=bu&u=zCOmzFDYCmjBGsWMC7R8hIqoRvoCzpQHd-PP6AHlG3w&cs=1080x0"], sizes:["S","M","L","XL","XXL"], description:"Эксклюзивная футболка", material:"Хлопок", color:"Белый", oldPrice:0, inStock:true, reviews:[] },
+  { id:4, name:"Adidas HANDBALL SPEZIAL", price:5999, type:"original", category:"sneakers", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20251206/6c7e527a221e4edb8897d33823fdf4d6.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251206/6c7e527a221e4edb8897d33823fdf4d6.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["39","40","41","42","43","44"], description:"Винтажные Adidas", material:"Замша", color:"Синий", oldPrice:0, inStock:true, reviews:[] },
+  { id:5, name:"Nike Dunk Low", price:14990, type:"original", category:"sneakers", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20251205/cb8924ed3096455db247ad8caf7faa7d.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251205/cb8924ed3096455db247ad8caf7faa7d.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["40","41","42","43","44","45"], description:"Dunk Low Panda", material:"Кожа", color:"Черный/Белый", oldPrice:0, inStock:false, reviews:[] },
+  { id:6, name:"Thrasher Skate MAG Logo", price:4990, type:"original", category:"clothing", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20250303/785a7bd6f50a42988bd3d02ae36489ee.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20250303/785a7bd6f50a42988bd3d02ae36489ee.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["S","M","L","XL"], description:"Футболка Thrasher", material:"Хлопок", color:"Черный", oldPrice:0, inStock:true, reviews:[] },
+  { id:7, name:"Jordan DNA", price:2990, type:"original", category:"clothing", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20250306/2988c5399dc5473cb6b9123f9f70f59a.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20250306/2988c5399dc5473cb6b9123f9f70f59a.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["S","M","L","XL","XXL"], description:"Майка Jordan", material:"Полиэстер/хлопок", color:"Белый", oldPrice:0, inStock:false, reviews:[] },
+  { id:8, name:"COACH Graham Hoodie", price:12990, type:"original", category:"clothing", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20250607/5ae2f8ad6f8a4e3380f6daf5174e7014.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20250607/5ae2f8ad6f8a4e3380f6daf5174e7014.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["S","M","L","XL"], description:"Худи COACH", material:"Флис", color:"Серый", oldPrice:0, inStock:true, reviews:[] },
+  { id:9, name:"PRADA Sunglasses", price:20990, type:"original", category:"accessories", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20240725/340e98dc8b1d4254afdebf22d7944b3e.png?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20240725/340e98dc8b1d4254afdebf22d7944b3e.png?x-oss-process=image/resize,s_720/format,webp"], sizes:["One size"], description:"Очки PRADA", material:"Ацетат", color:"Черный", oldPrice:0, inStock:false, reviews:[] },
+  { id:10, name:"Carhartt Hoodie", price:13990, type:"original", category:"clothing", image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20250331/f9e2fb780c0743e6bc4bc9a04870f875.jpg?x-oss-process=image/resize,s_720/format,webp", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20250331/f9e2fb780c0743e6bc4bc9a04870f875.jpg?x-oss-process=image/resize,s_720/format,webp"], sizes:["S","M","L","XL","XXL"], description:"Худи Carhartt", material:"Флис", color:"Хаки", oldPrice:0, inStock:true, reviews:[] }
+];
+// Дополним до 32+ (для демонстрации)
+for(let i=11; i<=32; i++) {
+  productsDB.push({ id:i, name:`Товар ${i}`, price:5000+i*100, type:i%2===0?"original":"replica", category:i%3===0?"sneakers":(i%3===1?"clothing":"accessories"), image:"https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800", images:["https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800"], sizes:["S-XL"], description:"Описание", material:"Разное", color:"Разный", oldPrice:0, inStock:true, reviews:[] });
+}
 
-  let cart = JSON.parse(localStorage.getItem('cart')) || {};
-  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
-  let liveActivities = [];
-  const names = ["Алексей","Мария","Дмитрий","Ольга","Иван","Елена"];
-  const cities = ["Москва","СПб","Казань","Новосибирск","Якутск"];
+let cart = JSON.parse(localStorage.getItem('cart')) || {};
+let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let compareList = JSON.parse(localStorage.getItem('compare')) || [];
 
-  function showNotification(msg) { const n = document.getElementById('notification'); document.getElementById('notificationMsg').innerText = msg; n.style.transform = 'translateX(0)'; setTimeout(() => n.style.transform = 'translateX(-120%)', 2500); }
-  function updateCounters() { document.getElementById('wishlistCount').innerText = wishlist.length; document.getElementById('compareCount').innerText = compareList.length; const cartCount = Object.values(cart).reduce((s,i) => s + (i.qty || 1), 0); document.getElementById('cartCount').innerText = cartCount; }
-  function saveToLocal() { localStorage.setItem('cart', JSON.stringify(cart)); localStorage.setItem('wishlist', JSON.stringify(wishlist)); localStorage.setItem('compare', JSON.stringify(compareList)); updateCounters(); }
-  function updateLiveActivity(productName, action) { const name = names[Math.floor(Math.random() * names.length)]; const city = cities[Math.floor(Math.random() * cities.length)]; liveActivities.unshift({ name, city, product: productName, time: 'только что', action }); if (liveActivities.length > 6) liveActivities.pop(); document.getElementById('liveContent').innerHTML = liveActivities.map(a => `<div class="activity-item"><div class="activity-avatar">${a.name[0]}</div><div><strong>${a.name}</strong> из ${a.city}<br>${a.action} <em>${a.product}</em><br><small>${a.time}</small></div></div>`).join(''); }
-  function simulateLive() { setInterval(() => { const rand = productsDB[Math.floor(Math.random() * productsDB.length)]; if (rand) updateLiveActivity(rand.name, 'купил'); }, 35000); }
+let currentProduct = null, selectedSize = null;
 
-  let currentProduct = null, selectedSize = null;
+function showNotification(msg) {
+  const n = document.getElementById('notification');
+  document.getElementById('notificationMsg').innerText = msg;
+  n.style.transform = 'translateX(0)';
+  setTimeout(() => n.style.transform = 'translateX(-120%)', 2500);
+}
+function updateCounters() {
+  document.getElementById('wishlistCount').innerText = wishlist.length;
+  document.getElementById('compareCount').innerText = compareList.length;
+  const cartCount = Object.values(cart).reduce((s,i) => s + (i.qty || 1), 0);
+  document.getElementById('cartCount').innerText = cartCount;
+}
+function saveToLocal() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  localStorage.setItem('compare', JSON.stringify(compareList));
+  updateCounters();
+}
+function addToCart() { if(!currentProduct) return; const key = currentProduct.id+'_'+Date.now(); cart[key]={...currentProduct, qty:1}; saveToLocal(); showNotification(`${currentProduct.name} добавлен в корзину`); updateLiveActivity(currentProduct.name, 'добавил в корзину'); playSound('cart'); }
+function toggleWishlist() { if(!currentProduct) return; const idx = wishlist.indexOf(currentProduct.id); if(idx===-1) { wishlist.push(currentProduct.id); showNotification('Добавлено в избранное'); } else { wishlist.splice(idx,1); showNotification('Удалено из избранного'); } saveToLocal(); renderProduct(); }
+function selectSize(size, e) { selectedSize=size; document.querySelectorAll('.size-btn').forEach(btn=>btn.classList.remove('selected')); e.target.classList.add('selected'); }
+function openImageModal(src) { document.getElementById('modalImage').src=src; document.getElementById('imageModal').classList.add('active'); }
+function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); }
 
-  function addToCart() { if (!currentProduct) return; const key = currentProduct.id + '_' + Date.now(); cart[key] = { ...currentProduct, qty: 1 }; saveToLocal(); showNotification(`${currentProduct.name} добавлен в корзину`); updateLiveActivity(currentProduct.name, 'добавил в корзину'); playSoftSound(); }
-  function toggleWishlist() { if (!currentProduct) return; const idx = wishlist.indexOf(currentProduct.id); if (idx === -1) { wishlist.push(currentProduct.id); showNotification('Добавлено в избранное'); } else { wishlist.splice(idx, 1); showNotification('Удалено из избранного'); } saveToLocal(); renderProduct(); }
-  function selectSize(size) { selectedSize = size; document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected')); event.target.classList.add('selected'); }
-  function openImageModal(src) { document.getElementById('modalImage').src = src; document.getElementById('imageModal').classList.add('active'); }
-  function closeImageModal() { document.getElementById('imageModal').classList.remove('active'); }
-
-  function addReview(event) {
-    event.preventDefault();
-    const name = document.getElementById('reviewName').value.trim();
-    const rating = parseInt(document.getElementById('reviewRating').value);
-    const text = document.getElementById('reviewText').value.trim();
-    if (!name || !text) { showNotification('Заполните имя и отзыв'); return; }
-    const newReview = { author: name, rating: rating, text: text };
-    currentProduct.reviews.push(newReview);
-    allReviews[currentProduct.id] = currentProduct.reviews;
-    localStorage.setItem('productReviews', JSON.stringify(allReviews));
-    // обновим глобальный productsDB в localStorage
-    let global = JSON.parse(localStorage.getItem('globalProducts'));
-    const idx = global.findIndex(p => p.id === currentProduct.id);
-    if(idx !== -1) global[idx].reviews = currentProduct.reviews;
-    localStorage.setItem('globalProducts', JSON.stringify(global));
-    renderProduct();
-    document.getElementById('reviewForm').reset();
-    showNotification('Спасибо за отзыв!');
-  }
-
-  function renderProduct() {
-    const p = currentProduct;
-    const isInWish = wishlist.includes(p.id);
-    const discount = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
-    const isAvailable = p.inStock !== false;
-    const availabilityText = isAvailable ? '✅ В наличии' : '❌ Нет в наличии';
-    const images = p.images && p.images.length ? p.images : [p.image];
-    const html = `
-      <div class="product-grid">
-        <div class="gallery">
-          <img src="${images[0]}" class="main-image" onclick="openImageModal('${images[0]}')" alt="${p.name}">
-          <div class="thumbnails">${images.map(img => `<img src="${img}" class="thumbnail" onclick="openImageModal('${img}')">`).join('')}</div>
-        </div>
-        <div>
-          <span class="product-badge ${p.type === 'original' ? 'badge-original' : 'badge-replica'}">${p.type === 'original' ? 'ОРИГИНАЛ' : 'РЕПЛИКА'}</span>
-          <h1 class="product-title">${p.name}</h1>
-          <div class="product-price">${p.price.toLocaleString()} ₽${p.oldPrice ? `<span class="old-price">${p.oldPrice.toLocaleString()} ₽</span><span style="background:#34c759; color:white; padding:2px 8px; border-radius:20px; margin-left:12px;">-${discount}%</span>` : ''}</div>
-          <div class="delivery-info"><i class="fas fa-truck"></i> Доставка: ${p.type === 'original' ? '7-14 дней (под заказ)' : '1-3 дня (в наличии)'} | ${availabilityText}</div>
-          <div class="size-options">${p.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}')">${s}</button>`).join('')}</div>
-          <div class="product-actions"><button class="btn btn-primary" onclick="addToCart()" ${!isAvailable ? 'disabled style="opacity:0.5;"' : ''}>В корзину</button><button class="btn btn-secondary" onclick="toggleWishlist()"><i class="${isInWish ? 'fas' : 'far'} fa-heart"></i> ${isInWish ? 'В избранном' : 'В избранное'}</button></div>
+function renderProduct() {
+  const p = currentProduct;
+  const isInWish = wishlist.includes(p.id);
+  const discount = p.oldPrice ? Math.round((1-p.price/p.oldPrice)*100) : 0;
+  const isAvailable = p.inStock !== false;
+  const availabilityText = isAvailable ? '✅ В наличии' : '❌ Нет в наличии';
+  const html = `
+    <div class="product-grid">
+      <div class="gallery">
+        <img src="${p.image}" class="main-image" onclick="openImageModal('${p.image}')" alt="${p.name}">
+        <div class="thumbnails">
+          ${p.images.map(img => `<img src="${img}" class="thumbnail" onclick="openImageModal('${img}')">`).join('')}
         </div>
       </div>
-      <h2 class="section-title">Описание</h2><p>${p.description}</p>
-      <h2 class="section-title">Характеристики</h2>
-      <div class="specs-grid"><div><strong>Материал:</strong> ${p.material}</div><div><strong>Цвет:</strong> ${p.color}</div><div><strong>Категория:</strong> ${p.category}</div><div><strong>Размеры:</strong> ${p.sizes.join(', ')}</div><div><strong>Тип:</strong> ${p.type === 'original' ? 'Оригинал' : 'Реплика'}</div><div><strong>Состояние:</strong> ${isAvailable ? 'В наличии' : 'Под заказ'}</div></div>
-      <h2 class="section-title">Отзывы (${p.reviews.length})</h2>
-      ${p.reviews.map(r => `<div class="review-card"><div class="review-author">${r.author}</div><div class="review-rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p>${r.text}</p></div>`).join('')}
-      <div class="add-review-form"><h3>Оставить отзыв</h3><form id="reviewForm"><input type="text" id="reviewName" placeholder="Ваше имя" required><select id="reviewRating"><option value="5">5 ★</option><option value="4">4 ★</option><option value="3">3 ★</option><option value="2">2 ★</option><option value="1">1 ★</option></select><textarea id="reviewText" rows="3" placeholder="Ваш отзыв" required></textarea><button type="submit" class="btn btn-primary">Отправить отзыв</button></form></div>
-    `;
-    document.getElementById('productContent').innerHTML = html;
-    document.getElementById('reviewForm')?.addEventListener('submit', addReview);
-  }
+      <div>
+        <span class="product-badge ${p.type==='original'?'badge-original':'badge-replica'}">${p.type==='original'?'ОРИГИНАЛ':'РЕПЛИКА'}</span>
+        <h1 class="product-title">${p.name}</h1>
+        <div class="product-price">
+          ${p.price.toLocaleString()} ₽
+          ${p.oldPrice ? `<span class="old-price">${p.oldPrice.toLocaleString()} ₽</span><span style="background:#34c759; color:white; padding:2px 8px; border-radius:20px; margin-left:12px;">-${discount}%</span>` : ''}
+        </div>
+        <div class="delivery-info"><i class="fas fa-truck"></i> Доставка: ${p.type==='original'?'7-14 дней (под заказ)':'1-3 дня (в наличии)'} | ${availabilityText}</div>
+        <div class="size-options">
+          ${p.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}', event)">${s}</button>`).join('')}
+        </div>
+        <div class="product-actions">
+          <button class="btn btn-primary" onclick="addToCart()" ${!isAvailable ? 'disabled style="opacity:0.5;"' : ''}>В корзину</button>
+          <button class="btn btn-secondary" onclick="toggleWishlist()"><i class="${isInWish?'fas':'far'} fa-heart"></i> ${isInWish?'В избранном':'В избранное'}</button>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">Описание</h2>
+    <p>${p.description}</p>
+    <h2 class="section-title">Характеристики</h2>
+    <div class="specs-grid">
+      <div><strong>Материал:</strong> ${p.material}</div>
+      <div><strong>Цвет:</strong> ${p.color}</div>
+      <div><strong>Категория:</strong> ${p.category}</div>
+      <div><strong>Размеры:</strong> ${p.sizes.join(', ')}</div>
+      <div><strong>Тип:</strong> ${p.type==='original'?'Оригинал':'Реплика'}</div>
+      <div><strong>Состояние:</strong> ${isAvailable?'В наличии':'Под заказ'}</div>
+    </div>
+    <h2 class="section-title">Отзывы (${p.reviews.length})</h2>
+    ${p.reviews.map(r => `<div class="review-card"><div class="review-author">${r.author}</div><div class="review-rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><p>${r.text}</p></div>`).join('')}
+  `;
+  document.getElementById('productContent').innerHTML = html;
+}
 
-  // ---------- ЗВУК ----------
-  let audioCtx = null, soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-  function initAudio() { if (!audioCtx && soundEnabled) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume(); } }
-  function playSoftSound() {
-    if (!soundEnabled) return;
-    try { if (!audioCtx) initAudio(); audioCtx.resume().then(() => { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.frequency.value = 523.25; gain.gain.value = 0.1; gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.4); osc.type = 'sine'; osc.start(); osc.stop(audioCtx.currentTime + 0.4); }); } catch(e) {} }
-  function toggleSound() { soundEnabled = !soundEnabled; localStorage.setItem('soundEnabled', soundEnabled); const icon = document.querySelector('#soundToggle i'); if (soundEnabled) { icon.classList.remove('fa-volume-mute'); icon.classList.add('fa-volume-up'); if (!audioCtx) initAudio(); } else { icon.classList.remove('fa-volume-up'); icon.classList.add('fa-volume-mute'); if (audioCtx) audioCtx.close(); audioCtx = null; } }
+// Живая активность
+let liveActivities = [];
+const names = ["Алексей","Мария","Дмитрий","Ольга","Иван","Елена"];
+const cities = ["Москва","СПб","Казань","Новосибирск","Якутск"];
+function updateLiveActivity(productName, action) {
+  const name = names[Math.floor(Math.random()*names.length)];
+  const city = cities[Math.floor(Math.random()*cities.length)];
+  liveActivities.unshift({ name, city, product: productName, time: 'только что', action });
+  if(liveActivities.length>6) liveActivities.pop();
+  document.getElementById('liveContent').innerHTML = liveActivities.map(a => `<div class="activity-item"><div class="activity-avatar">${a.name[0]}</div><div><strong>${a.name}</strong> из ${a.city}<br>${a.action} <em>${a.product}</em><br><small>${a.time}</small></div></div>`).join('');
+}
+function simulateLive() { setInterval(() => { const rand = productsDB[Math.floor(Math.random()*productsDB.length)]; if(rand) updateLiveActivity(rand.name, 'купил'); }, 35000); }
 
-  // ---------- ПЕРЕВОД (базовый) ----------
-  function applyLanguage(lang) { /* можно расширить, но основные тексты на русском */ }
+// Звук
+let audioCtx = null, soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+function initAudio() { if (!audioCtx && soundEnabled) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume(); } }
+function playSound(type) { if (!soundEnabled) return; try { if (!audioCtx) initAudio(); audioCtx.resume().then(() => { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.frequency.value = type==='cart'?660:880; gain.gain.value=0.15; gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime+0.2); osc.type='sine'; osc.start(); osc.stop(audioCtx.currentTime+0.2); }); } catch(e) {} }
+function toggleSound() { soundEnabled = !soundEnabled; localStorage.setItem('soundEnabled', soundEnabled); const icon = document.querySelector('#soundToggle i'); if(soundEnabled) { icon.classList.remove('fa-volume-mute'); icon.classList.add('fa-volume-up'); if(!audioCtx) initAudio(); } else { icon.classList.remove('fa-volume-up'); icon.classList.add('fa-volume-mute'); if(audioCtx) audioCtx.close(); audioCtx=null; } }
 
-  // ---------- ЗАГРУЗКА ----------
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id')) || 1;
-    currentProduct = productsDB.find(p => p.id === productId) || productsDB[0];
-    renderProduct(); updateCounters(); simulateLive();
-    const savedTheme = localStorage.getItem('theme'); if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').onclick = () => { playSoftSound(); const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; if (isDark) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); } else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); } };
-    const savedLang = localStorage.getItem('lang') || 'ru';
-    document.getElementById('langBtn').innerText = savedLang === 'ru' ? 'Русский' : 'Саха тыла';
-    const langBtn = document.getElementById('langBtn'), langOptions = document.getElementById('langOptions');
-    langBtn.onclick = () => { playSoftSound(); langOptions.style.display = langOptions.style.display === 'block' ? 'none' : 'block'; };
-    document.querySelectorAll('.lang-option').forEach(opt => {
-      opt.onclick = () => { playSoftSound(); const lang = opt.getAttribute('data-lang'); localStorage.setItem('lang', lang); langOptions.style.display = 'none'; langBtn.innerText = lang === 'ru' ? 'Русский' : 'Саха тыла'; applyLanguage(lang); };
-    });
-    document.getElementById('soundToggle').onclick = toggleSound; if (soundEnabled) initAudio();
-    const burger = document.getElementById('burgerBtn'), mobileNav = document.getElementById('mobileNav'), overlay = document.getElementById('mobileOverlay'), closeMobile = document.getElementById('closeMobileNav');
-    burger.onclick = () => { mobileNav.classList.add('open'); overlay.classList.add('active'); };
-    closeMobile.onclick = () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); };
-    overlay.onclick = () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); };
-    const scrollBtn = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => scrollBtn.classList.toggle('visible', window.scrollY > 300)); scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-    const toggleLive = document.getElementById('toggleLive'), liveContent = document.getElementById('liveContent'); let collapsed = false;
-    toggleLive.onclick = () => { if (collapsed) { liveContent.style.display = 'block'; toggleLive.classList.remove('fa-chevron-up'); toggleLive.classList.add('fa-chevron-down'); } else { liveContent.style.display = 'none'; toggleLive.classList.remove('fa-chevron-down'); toggleLive.classList.add('fa-chevron-up'); } collapsed = !collapsed; };
-    document.getElementById('returnPolicyLink').onclick = (e) => { e.preventDefault(); document.getElementById('returnPolicyModal').style.visibility = 'visible'; document.getElementById('returnPolicyModal').style.opacity = '1'; };
-    document.getElementById('cartBtn').onclick = () => { window.location.href = 'cart.html'; };
-    window.closeModal = (id) => { document.getElementById(id).style.visibility = 'hidden'; document.getElementById(id).style.opacity = '0'; };
-    window.selectSize = selectSize; window.openImageModal = openImageModal; window.closeImageModal = closeImageModal; window.addToCart = addToCart; window.toggleWishlist = toggleWishlist;
-  });
+function openModal(id) { const modal = document.getElementById(id); if(modal) { modal.style.visibility='visible'; modal.style.opacity='1'; } }
+function closeModal(id) { const modal = document.getElementById(id); if(modal) { modal.style.visibility='hidden'; modal.style.opacity='0'; } }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = parseInt(urlParams.get('id')) || 1;
+  currentProduct = productsDB.find(p=>p.id===productId) || productsDB[0];
+  renderProduct();
+  updateCounters();
+  simulateLive();
+
+  const savedTheme = localStorage.getItem('theme');
+  if(savedTheme==='dark') document.documentElement.setAttribute('data-theme','dark');
+  document.getElementById('themeToggle').onclick = () => { playSound('click'); const isDark = document.documentElement.getAttribute('data-theme')==='dark'; if(isDark) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme','light'); } else { document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); } };
+  const langBtn = document.getElementById('langBtn'), langOptions = document.getElementById('langOptions');
+  langBtn.onclick = () => { playSound('click'); langOptions.style.display = langOptions.style.display==='block'?'none':'block'; };
+  document.querySelectorAll('.lang-option').forEach(opt => { opt.onclick = () => { playSound('click'); const lang = opt.getAttribute('data-lang'); localStorage.setItem('lang',lang); langOptions.style.display='none'; langBtn.innerText = lang==='ru'?'Русский':'Саха тыла'; }; });
+  document.getElementById('soundToggle').onclick = toggleSound;
+  if(soundEnabled) initAudio();
+  const burger = document.getElementById('burgerBtn'), mobileNav = document.getElementById('mobileNav'), overlay = document.getElementById('mobileOverlay'), closeMobile = document.getElementById('closeMobileNav');
+  burger.onclick = () => { mobileNav.classList.add('open'); overlay.classList.add('active'); };
+  closeMobile.onclick = () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); };
+  overlay.onclick = () => { mobileNav.classList.remove('open'); overlay.classList.remove('active'); };
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => scrollBtn.classList.toggle('visible', window.scrollY>300));
+  scrollBtn.onclick = () => window.scrollTo({ top:0, behavior:'smooth' });
+  const toggleLive = document.getElementById('toggleLive'), liveContent = document.getElementById('liveContent');
+  let collapsed = false;
+  toggleLive.onclick = () => { if(collapsed) { liveContent.style.display='block'; toggleLive.classList.remove('fa-chevron-up'); toggleLive.classList.add('fa-chevron-down'); } else { liveContent.style.display='none'; toggleLive.classList.remove('fa-chevron-down'); toggleLive.classList.add('fa-chevron-up'); } collapsed = !collapsed; };
+  document.getElementById('returnPolicyLink').onclick = (e) => { e.preventDefault(); openModal('returnPolicyModal'); };
+  document.getElementById('cartBtn').onclick = () => window.location.href = 'cart.html';
+  document.getElementById('compareBtn').onclick = () => window.location.href = 'compare.html';
+});
+
+window.addToCart = addToCart; window.toggleWishlist = toggleWishlist; window.selectSize = selectSize; window.openImageModal = openImageModal; window.closeImageModal = closeImageModal; window.closeModal = closeModal;
 </script>
 </body>
 </html>
